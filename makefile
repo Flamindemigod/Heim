@@ -1,21 +1,17 @@
 #!/usr/bin/env nix-shell
 #! nix-shell -i make -p gnumake lua luaformatter
 
-NAME = $(basename $(pwd))
+NAME = $(shell basename $(shell pwd))
 ADDON_FOLDER = ~/LAtlas/eso/ESO/AddOns
 LUA_FORMAT = lua-format
 SRC_DIR = ./src # Directory containing Lua files
 LUA_FILES = $(shell find $(SRC_DIR) -name "*.lua")
 ADDON_PATH = $(shell pwd)
 
-all: clean format $(NAME).txt zip
-
-$(NAME).txt: build.lua $(LUA_FILES)
-	lua build.lua -b
+all: clean format zip
 
 clean:
 	@echo "Removing Build Artifacts"
-	-rm $(NAME).txt
 	-rm $(NAME).zip
 	@echo "Done"
 
