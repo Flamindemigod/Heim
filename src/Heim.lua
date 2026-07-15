@@ -4,9 +4,7 @@ Heim.SM = SCENE_MANAGER;
 Heim.name = "Heim";
 Heim.scenes = {};
 
-local InitId = nil;
-
-function fragmentCopy(tbl)
+function FragmentCopy(tbl)
     local copy = {}
     for _, value in pairs(tbl) do
         if (value.control ~= nil) then
@@ -21,7 +19,7 @@ function GetFragementName(fragment)
     return nil;
 end
 
-function Heim.show(scene, fragment_name)
+function Heim.Show(scene, fragment_name)
     local fragment = scene.fragmentList[fragment_name];
     if (fragment ~= nil) then
         scene.scene:AddFragment(fragment)
@@ -30,30 +28,58 @@ function Heim.show(scene, fragment_name)
 end
 
 -- POC
-function Heim.test()
+function Heim.Test()
     local hud = Heim.scenes.hud;
-    local control = Heim.show(hud, "ZO_PerformanceMeters");
+    local hudui = Heim.scenes.hudui;
+    local control = Heim.Show(hud, "ZO_PerformanceMeters");
     control:SetScale(2);
+    Heim.Show(hud, "HyperTools_Trackers");
+    Heim.Show(hud, "HyperTools_3D");
+    Heim.Show(hudui, "HyperTools_Trackers");
+    Heim.Show(hudui, "HyperTools_3D");
 end
 
-function Heim.init()
+-- Required Mostly because some addons are just stupid and use the state change to show/hide windows instead of adding it as a fragment
+function Heim.SpecificAddonFixes()
+    -- HyperTools
+    -- https://www.esoui.com/downloads/info3057-HyperTools.html
+    if (HT ~= nil) then
+        local HT_TRACKER_FRAG = ZO_HUDFadeSceneFragment:New(HT_Trackers)
+        local HT_3D_FRAG = ZO_HUDFadeSceneFragment:New(HT_3D)
+        Heim.scenes.hud.fragmentList[HT.name .. "_Trackers"] = HT_TRACKER_FRAG;
+        Heim.scenes.hudui.fragmentList[HT.name .. "_Trackers"] = HT_TRACKER_FRAG;
+        Heim.scenes.hud.fragmentList[HT.name .. "_3D"] = HT_3D_FRAG;
+        Heim.scenes.hudui.fragmentList[HT.name .. "_3D"] = HT_3D_FRAG;
+    end
+end
+
+function Heim.PrepScene(sceneName)
+    Heim.scenes[sceneName] = {scene = Heim.SM:GetScene(sceneName)};
+    Heim.scenes[sceneName].scene:UnregisterAllCallbacks("StateChange");
+    Heim.scenes[sceneName].fragmentList = FragmentCopy(
+                                              Heim.scenes[sceneName].scene
+                                                  .fragments)
+
+    Heim.scenes[sceneName].scene.fragments = {};
+end
+
+function Heim.Init()
     if (Heim.SM ~= nil) then
-        Heim.scenes.hud = {scene = Heim.SM:GetScene("hud")};
-        Heim.scenes.hud.fragmentList = fragmentCopy(
-                                           Heim.scenes.hud.scene.fragments)
-        Heim.scenes.hud.scene:SetState("hidden");
-        Heim.scenes.hud.scene.fragments = {};
-        Heim.scenes.hud.scene:SetState("shown");
+        Heim.SM:Show("empty");
+        Heim.PrepScene("hud");
+        Heim.PrepScene("hudui");
+        Heim.SM:Show("hud");
+        Heim.SpecificAddonFixes();
     end
 end
 
 function Heim.OnAddOnLoaded(event, addonName)
-    if InitId then zo_removeCallLater(InitId) end
-    InitId = zo_callLater(function()
-        Heim.init();
+    if (addonName == Heim.name) then
+        Heim.EM:RegisterForEvent(Heim.name .. "DeferredInit",
+                                 EVENT_PLAYER_ACTIVATED,
+                                 function() zo_callLater(Heim.Init, 2) end);
         Heim.EM:UnregisterForEvent(Heim.name, EVENT_ADD_ON_LOADED);
-    end, 1000)
+    end
 end
 
-Heim.EM:RegisterForEvent(Heim.name, EVENT_ADD_ON_LOADED, Heim.OnAddOnLoaded,
-                         false);
+Heim.EM:RegisterForEvent(Heim.name, EVENT_ADD_ON_LOADED, Heim.OnAddOnLoaded);
