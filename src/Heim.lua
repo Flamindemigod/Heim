@@ -14,8 +14,14 @@ function FragmentCopy(tbl)
     return copy
 end
 
-function GetFragementName(fragment)
-    if (it.control ~= nil) then return it.control:GetName(); end
+function MergeMaps(...)
+    local dest = {};
+    for _, it in ipairs({...}) do for k, v in pairs(it) do dest[k] = v; end end
+    return dest;
+end
+
+function GetFragmentName(fragment)
+    if (fragment.control ~= nil) then return fragment.control:GetName(); end
     return nil;
 end
 
@@ -29,14 +35,22 @@ end
 
 -- POC
 function Heim.Test()
+    local control
     local hud = Heim.scenes.hud;
     local hudui = Heim.scenes.hudui;
-    local control = Heim.Show(hud, "ZO_PerformanceMeters");
-    control:SetScale(2);
-    Heim.Show(hud, "HyperTools_Trackers");
-    Heim.Show(hud, "HyperTools_3D");
-    Heim.Show(hudui, "HyperTools_Trackers");
-    Heim.Show(hudui, "HyperTools_3D");
+    for _, it in pairs({hud, hudui}) do
+        control = Heim.Show(it, "ZO_CompassFrame");
+        control:SetDimensionConstraints(50, 50, 2000, 50);
+        control:SetWidth(2000);
+        control:SetAlpha(0.5);
+        Heim.Show(it, "ZO_Death");
+        Heim.Show(it, "ZO_DeathRecap");
+        Heim.Show(it, "ZO_DyanmicEventsTracker_TLContainer");
+        control = Heim.Show(it, "ZO_PerformanceMeters");
+        control:SetScale(2);
+        Heim.Show(it, "HyperTools_Trackers");
+        Heim.Show(it, "HyperTools_3D");
+    end
 end
 
 -- Required Mostly because some addons are just stupid and use the state change to show/hide windows instead of adding it as a fragment
@@ -51,15 +65,35 @@ function Heim.SpecificAddonFixes()
         Heim.scenes.hud.fragmentList[HT.name .. "_3D"] = HT_3D_FRAG;
         Heim.scenes.hudui.fragmentList[HT.name .. "_3D"] = HT_3D_FRAG;
     end
+    -- Exoys Proc Set Tracker
+    -- TODO: Add Link to EPT
+    if (EPT ~= nil) then
+        function EPT:RegisterGUI(setId)
+            if not EPT.guiList[setId] then
+                EPT.guiList[setId] = EPT:CreateGui(setId)
+            end
+            Heim.scenes.hud.fragmentList[EPT.name .. setId] = EPT.guiList[setId]
+                                                                  .frag;
+            Heim.scenes.hudui.fragmentList[EPT.name .. setId] =
+                EPT.guiList[setId].frag;
+        end
+        function EPT:UnregisterGUI(setId)
+            Heim.scenes.hud.fragmentList[EPT.name .. setId] = nil;
+            Heim.scenes.hudui.fragmentList[EPT.name .. setId] = nil;
+        end
+        -- TODO: Fix CMX Live Report Window
+    end
 end
 
 function Heim.PrepScene(sceneName)
     Heim.scenes[sceneName] = {scene = Heim.SM:GetScene(sceneName)};
     Heim.scenes[sceneName].scene:UnregisterAllCallbacks("StateChange");
-    Heim.scenes[sceneName].fragmentList = FragmentCopy(
-                                              Heim.scenes[sceneName].scene
-                                                  .fragments)
-
+    Heim.scenes[sceneName].fragmentList = MergeMaps(
+                                              Heim.scenes[sceneName]
+                                                  .fragmentList or {},
+                                              FragmentCopy(
+                                                  Heim.scenes[sceneName].scene
+                                                      .fragments));
     Heim.scenes[sceneName].scene.fragments = {};
 end
 
