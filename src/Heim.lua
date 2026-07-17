@@ -33,22 +33,57 @@ function Heim.Show(scene, fragment_name)
     end
 end
 
--- POC
-function Heim.Test()
-    local control
+function Heim.LoadUI()
+    local control, control1;
     local hud = Heim.scenes.hud;
     local hudui = Heim.scenes.hudui;
     for _, it in pairs({hud, hudui}) do
         control = Heim.Show(it, "ZO_CompassFrame");
-        control:SetDimensionConstraints(1000, 50, 2000, 50);
-        control:SetWidth(2000);
+        control:SetDimensionConstraints(1000, 50, 1500, 50);
+        control:SetWidth(1500);
         Heim.Show(it, "ZO_Death");
         Heim.Show(it, "ZO_DeathRecap");
         Heim.Show(it, "ZO_DyanmicEventsTracker_TLContainer");
         control = Heim.Show(it, "ZO_PerformanceMeters");
-        control:SetScale(2);
+        control:ClearAnchors()
+        control:SetAnchor(BOTTOMLEFT, GuiRoot, BOTTOMLEFT, -16, 16);
         Heim.Show(it, "HyperTools_Trackers");
         Heim.Show(it, "HyperTools_3D");
+        control = Heim.Show(it, "ZO_ActionBar1");
+        control:ClearAnchors()
+        control:SetAnchor(BOTTOM, GuiRoot, Bottom, 0, -65)
+        control1 = Heim.Show(it, "ALTATTR_Container");
+        control1:ClearAnchors();
+        control1:SetAnchor(BOTTOM, control, TOP, 0, -1*(control1:GetHeight() + 16))
+
+        control = Heim.Show(it, "ALTGF_UnitFrames");
+        control:ClearAnchors();
+        control:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 16, 16);
+        control1 = Heim.Show(it, "HodorReflexes_Share_Damage");
+        control1:ClearAnchors();
+        control1:SetAnchor(TOPLEFT, control, TOPRIGHT, 16, 0);
+        --This is actully the horn ult share window
+        control1 = Heim.Show(it, "HodorReflexes_Share_Ultimates");
+        control1:ClearAnchors();
+        control1:SetAnchor(TOPLEFT, control, BOTTOMLEFT, 0, 16);
+        control = Heim.Show(it, "HodorReflexes_Share_Colos");
+        control:ClearAnchors();
+        control:SetAnchor(TOPLEFT, control1, TOPRIGHT, 16, 0);
+        control = Heim.Show(it, "HodorReflexes_Share_Atronach");
+        control:ClearAnchors();
+        control:SetAnchor(TOPLEFT, control1, BOTTOMLEFT, 0, 16);
+        control1 = Heim.Show(it, "HodorReflexes_Share_MiscUltimates");
+        control1:ClearAnchors();
+        control1:SetAnchor(TOPLEFT, control, TOPRIGHT, 16, 0);
+
+        control = Heim.Show(it, "ZO_WorldMap");
+        control:ClearAnchors()
+        control:SetAnchor(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16*8)
+        control1 = Heim.Show(it, "ZO_ActivityTrackerContainer");
+        control1:ClearAnchors();
+        control1:SetAnchor(TOPRIGHT, control, BOTTOMRIGHT, 0, 16);
+        Heim.Show(it, "M0RMarkersToplevel");
+        Heim.Show(it, "ZO_LootHistoryControl_Gamepad");
     end
 end
 
@@ -80,7 +115,24 @@ function Heim.SpecificAddonFixes()
             Heim.scenes.hud.fragmentList[EPT.name .. setId] = nil;
             Heim.scenes.hudui.fragmentList[EPT.name .. setId] = nil;
         end
-        -- TODO: Fix CMX Live Report Window
+    end
+    --Votan's Minimap
+    --TODO: Add Link to Votan's Minimap
+    if(VOTANS_MINIMAP ~= nil) then
+        local ZO_WorldMap_Anchor = {ZO_WorldMap:GetAnchor(0)};
+        ZO_PreHook(
+            VOTANS_MINIMAP, "GoWorldMapMode",
+            function ()
+                ZO_WorldMap_Anchor = {ZO_WorldMap:GetAnchor(0)};
+            end
+        )
+        ZO_PostHook(
+            VOTANS_MINIMAP, "GoMiniMapMode",
+            function ()
+                ZO_WorldMap:ClearAnchors();
+                ZO_WorldMap:SetAnchor(ZO_WorldMap_Anchor[2], ZO_WorldMap_Anchor[3],ZO_WorldMap_Anchor[4],ZO_WorldMap_Anchor[5], ZO_WorldMap_Anchor[6]);
+            end
+        )
     end
 end
 
@@ -138,8 +190,11 @@ function Heim.Init()
             end
             self:RemoveFragment_(fragment);
         end
-
+        --Default UI Fragment. its a bit weird because it messes with a bunch of stuff in globla scope through methods and doesnt have any attributes itself;
+        Heim.scenes.hud.scene:AddFragment_(HUD_FRAGMENT);
+        function ACTIVITY_TRACKER:RefreshAnchors() end
         Heim.SpecificAddonFixes();
+        Heim.LoadUI();
     end
 end
 
