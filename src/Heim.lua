@@ -28,7 +28,7 @@ end
 function Heim.Show(scene, fragment_name)
     local fragment = scene.fragmentList[fragment_name];
     if (fragment ~= nil) then
-        scene.scene:AddFragment(fragment)
+        scene.scene:AddFragment_(fragment)
         return fragment.control;
     end
 end
@@ -40,9 +40,8 @@ function Heim.Test()
     local hudui = Heim.scenes.hudui;
     for _, it in pairs({hud, hudui}) do
         control = Heim.Show(it, "ZO_CompassFrame");
-        control:SetDimensionConstraints(50, 50, 2000, 50);
+        control:SetDimensionConstraints(1000, 50, 2000, 50);
         control:SetWidth(2000);
-        control:SetAlpha(0.5);
         Heim.Show(it, "ZO_Death");
         Heim.Show(it, "ZO_DeathRecap");
         Heim.Show(it, "ZO_DyanmicEventsTracker_TLContainer");
@@ -103,6 +102,43 @@ function Heim.Init()
         Heim.PrepScene("hud");
         Heim.PrepScene("hudui");
         Heim.SM:Show("hud");
+        function ZO_Scene:AddFragment_(fragment)
+            if not self:HasFragment(fragment) then
+                table.insert(self.fragments, fragment)
+                fragment:SetSceneManager(self.sceneManager)
+                fragment:Refresh()
+            end
+        end
+
+        function ZO_Scene:AddFragment(fragment)
+            if(Heim.scenes[self.name] ~= nil) then
+                local fragName = GetFragmentName(fragment);
+                if(fragName == nil) then return nil end;
+                Heim.scenes[self.name].fragmentList[fragName] = fragment;
+                return;
+            end
+            self:AddFragment_(fragment);
+        end
+
+        function ZO_Scene:RemoveFragment_(fragment)
+            for i = 1, #self.fragments do
+                if(self.fragments[i] == fragment) then
+                    table.remove(self.fragments, i)
+                    fragment:Refresh()
+                    break
+                end
+            end
+        end
+
+        function ZO_Scene:RemoveFragment(fragment)
+            if(Heim.scenes[self.name] ~= nil) then
+                local fragName = GetFragmentName(fragment);
+                if(fragName == nil) then return nil end;
+                Heim.scenes[self.name].fragmentList[fragName] = nil;
+            end
+            self:RemoveFragment_(fragment);
+        end
+
         Heim.SpecificAddonFixes();
     end
 end
@@ -111,7 +147,7 @@ function Heim.OnAddOnLoaded(event, addonName)
     if (addonName == Heim.name) then
         Heim.EM:RegisterForEvent(Heim.name .. "DeferredInit",
                                  EVENT_PLAYER_ACTIVATED,
-                                 function() zo_callLater(Heim.Init, 2) end);
+                                 Heim.Init);
         Heim.EM:UnregisterForEvent(Heim.name, EVENT_ADD_ON_LOADED);
     end
 end
