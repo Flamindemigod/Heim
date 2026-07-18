@@ -54,7 +54,8 @@ function Heim.LoadUI()
         control:SetAnchor(BOTTOM, GuiRoot, Bottom, 0, -65)
         control1 = Heim.Show(it, "ALTATTR_Container");
         control1:ClearAnchors();
-        control1:SetAnchor(BOTTOM, control, TOP, 0, -1*(control1:GetHeight() + 16))
+        control1:SetAnchor(BOTTOM, control, TOP, 0,
+                           -1 * (control1:GetHeight() + 16))
 
         control = Heim.Show(it, "ALTGF_UnitFrames");
         control:ClearAnchors();
@@ -62,7 +63,7 @@ function Heim.LoadUI()
         control1 = Heim.Show(it, "HodorReflexes_Share_Damage");
         control1:ClearAnchors();
         control1:SetAnchor(TOPLEFT, control, TOPRIGHT, 16, 0);
-        --This is actully the horn ult share window
+        -- This is actully the horn ult share window
         control1 = Heim.Show(it, "HodorReflexes_Share_Ultimates");
         control1:ClearAnchors();
         control1:SetAnchor(TOPLEFT, control, BOTTOMLEFT, 0, 16);
@@ -78,7 +79,7 @@ function Heim.LoadUI()
 
         control = Heim.Show(it, "ZO_WorldMap");
         control:ClearAnchors()
-        control:SetAnchor(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16*8)
+        control:SetAnchor(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16 * 8)
         control1 = Heim.Show(it, "ZO_ActivityTrackerContainer");
         control1:ClearAnchors();
         control1:SetAnchor(TOPRIGHT, control, BOTTOMRIGHT, 0, 16);
@@ -116,23 +117,49 @@ function Heim.SpecificAddonFixes()
             Heim.scenes.hudui.fragmentList[EPT.name .. setId] = nil;
         end
     end
-    --Votan's Minimap
-    --TODO: Add Link to Votan's Minimap
-    if(VOTANS_MINIMAP ~= nil) then
+    -- Votan's Minimap
+    -- TODO: Add Link to Votan's Minimap
+    if (VOTANS_MINIMAP ~= nil) then
         local ZO_WorldMap_Anchor = {ZO_WorldMap:GetAnchor(0)};
-        ZO_PreHook(
-            VOTANS_MINIMAP, "GoWorldMapMode",
-            function ()
-                ZO_WorldMap_Anchor = {ZO_WorldMap:GetAnchor(0)};
+        ZO_PreHook(VOTANS_MINIMAP, "GoWorldMapMode", function()
+            ZO_WorldMap_Anchor = {ZO_WorldMap:GetAnchor(0)};
+        end)
+        ZO_PostHook(VOTANS_MINIMAP, "GoMiniMapMode", function()
+            ZO_WorldMap:ClearAnchors();
+            ZO_WorldMap:SetAnchor(ZO_WorldMap_Anchor[2], ZO_WorldMap_Anchor[3],
+                                  ZO_WorldMap_Anchor[4], ZO_WorldMap_Anchor[5],
+                                  ZO_WorldMap_Anchor[6]);
+        end)
+    end
+    -- Alternative Group Frames
+    -- TODO: Add Link To  AGF
+    if (ALTGF_UnitFrames_Initialize ~= nil) then
+        local CONTAINER_PAD = 5
+        function ALT_GROUP_FRAMES:RefreshView(withElems)
+            local maxCol = zo_ceil(self.groupSize /
+                                       self.SETTINGS.FRAMES_PER_COLUMN)
+            local maxRow = zo_min(self.groupSize,
+                                  self.SETTINGS.FRAMES_PER_COLUMN)
+
+            local x = maxCol *
+                          (self.SETTINGS.UNIT_FRAME_WIDTH +
+                              self.SETTINGS.UNIT_FRAME_PAD_X)
+            local y = maxRow *
+                          (self.SETTINGS.UNIT_FRAME_HEIGHT +
+                              self.SETTINGS.UNIT_FRAME_PAD_Y)
+
+            self.control:SetDimensions(x + (CONTAINER_PAD * 2),
+                                       y + (CONTAINER_PAD * 2))
+
+            if withElems then
+                for _, unitFrame in pairs(self.unitFrames) do
+                    -- Refresh whether or not a frame is active, so that when switching between keyboard and
+                    -- controller, the frames are properly resized and ready for new group members
+                    unitFrame:RefreshView()
+                    unitFrame:RefreshPosition()
+                end
             end
-        )
-        ZO_PostHook(
-            VOTANS_MINIMAP, "GoMiniMapMode",
-            function ()
-                ZO_WorldMap:ClearAnchors();
-                ZO_WorldMap:SetAnchor(ZO_WorldMap_Anchor[2], ZO_WorldMap_Anchor[3],ZO_WorldMap_Anchor[4],ZO_WorldMap_Anchor[5], ZO_WorldMap_Anchor[6]);
-            end
-        )
+        end
     end
 end
 
@@ -163,9 +190,9 @@ function Heim.Init()
         end
 
         function ZO_Scene:AddFragment(fragment)
-            if(Heim.scenes[self.name] ~= nil) then
+            if (Heim.scenes[self.name] ~= nil) then
                 local fragName = GetFragmentName(fragment);
-                if(fragName == nil) then return nil end;
+                if (fragName == nil) then return nil end
                 Heim.scenes[self.name].fragmentList[fragName] = fragment;
                 return;
             end
@@ -174,7 +201,7 @@ function Heim.Init()
 
         function ZO_Scene:RemoveFragment_(fragment)
             for i = 1, #self.fragments do
-                if(self.fragments[i] == fragment) then
+                if (self.fragments[i] == fragment) then
                     table.remove(self.fragments, i)
                     fragment:Refresh()
                     break
@@ -183,26 +210,25 @@ function Heim.Init()
         end
 
         function ZO_Scene:RemoveFragment(fragment)
-            if(Heim.scenes[self.name] ~= nil) then
+            if (Heim.scenes[self.name] ~= nil) then
                 local fragName = GetFragmentName(fragment);
-                if(fragName == nil) then return nil end;
+                if (fragName == nil) then return nil end
                 Heim.scenes[self.name].fragmentList[fragName] = nil;
             end
             self:RemoveFragment_(fragment);
         end
-        --Default UI Fragment. its a bit weird because it messes with a bunch of stuff in globla scope through methods and doesnt have any attributes itself;
+        -- Default UI Fragment. its a bit weird because it messes with a bunch of stuff in globla scope through methods and doesnt have any attributes itself;
         Heim.scenes.hud.scene:AddFragment_(HUD_FRAGMENT);
         function ACTIVITY_TRACKER:RefreshAnchors() end
         Heim.SpecificAddonFixes();
-        Heim.LoadUI();
+        zo_callLater(Heim.LoadUI, 1);
     end
 end
 
 function Heim.OnAddOnLoaded(event, addonName)
     if (addonName == Heim.name) then
         Heim.EM:RegisterForEvent(Heim.name .. "DeferredInit",
-                                 EVENT_PLAYER_ACTIVATED,
-                                 Heim.Init);
+                                 EVENT_PLAYER_ACTIVATED, Heim.Init);
         Heim.EM:UnregisterForEvent(Heim.name, EVENT_ADD_ON_LOADED);
     end
 end
