@@ -4,8 +4,10 @@
 NAME = $(shell basename $(shell pwd))
 ADDON_FOLDER = ~/LAtlas/eso/ESO/AddOns
 LUA_FORMAT = lua-format
+XML_FORMAT = tidy -xml -i -q
 SRC_DIR = ./src # Directory containing Lua files
 LUA_FILES = $(shell find $(SRC_DIR) -name "*.lua")
+XML_FILES = $(shell find $(SRC_DIR) -name "*.xml")
 ADDON_PATH = $(shell pwd)
 
 all: clean format zip
@@ -21,6 +23,11 @@ format:
 	@for file in $(LUA_FILES); do \
 		echo "Formatting $$file"; \
 		$(LUA_FORMAT) -i $$file; \
+	done
+	@echo "Formatting XML files..."
+	@for file in $(XML_FILES); do \
+		echo "Formatting $$file"; \
+		$(XML_FORMAT) -m $$file; \
 	done
 	@echo "Done."
 

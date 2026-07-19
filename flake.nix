@@ -17,6 +17,7 @@
 
         nativeBuildInputs = with pkgs; [
           luaformatter
+          html-tidy
         ];
         buildInputs = with pkgs;
           [

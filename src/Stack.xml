@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <GuiXml>
   <Controls>
-    <Control name="Heim_Stack" resizeToFitDescendents="true" virtual="true">
-    </Control>
+    <Control name="Heim_Stack" resizeToFitDescendents="true"
+    virtual="true"></Control>
   </Controls>
 </GuiXml>
