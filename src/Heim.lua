@@ -11,6 +11,33 @@ Heim.desc = addonInfo.desc;
 Heim.scenes = {};
 Heim.fixes = {};
 
+local DEBUG_MODE = false;
+if(DEBUG_MODE) then
+    local LOG_MODE = HeimUtils.LOG_MODE.TRACE;
+    Heim.Log = HeimUtils.Logger(Heim.title, LOG_MODE);
+
+    local function format_vaargs(...)
+        local args = {...}
+        for i = 1, #args do
+            args[i] = tostring(args[i])
+        end
+        return table.concat(args, ", ")
+    end
+
+    for name, it in pairs(Heim) do
+        if(it ~= nil and type(it) == "function") then
+            local wrapped = function(...) then
+                Heim.Log.trace("Calling function %s.%s(%s)", "Heim", name, format_vaargs(...));
+                it(...);
+            end
+            Heim[name] = wrapped;
+        end
+    end
+else
+    local LOG_MODE = HeimUtils.LOG_MODE.WARN;
+    Heim.Log = HeimUtils.Logger(Heim.title, LOG_MODE);
+end
+
 function Heim.Show(scene, fragment_name)
     local fragment = scene.fragmentList[fragment_name];
     if (fragment ~= nil) then
