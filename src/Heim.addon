@@ -1,11 +1,18 @@
-## Title: Heim
+## Title: Heim|t32:32:/esoui/art\icons\mapkey\mapkey_housing.dds|t
+## Description: Heim is a no frills declaritive UI toolkit
 ## Author: |cFFA500FlaminDemigod|r
 ## APIVersion: 101050
-## AddOnVersion: 001
-## Version:  0.0.1
-## SavedVariables: HeimVars
+## AddOnVersion: 100
+## Version:  1.0.0
 
 Heim.lua
 HeimUtils.lua
 Stack.lua
 Stack.xml
+
+Fixes/Default.lua
+Fixes/ZO.lua
+Fixes/ALTFG.lua
+Fixes/EPT.lua
+Fixes/HT.lua
+Fixes/VOTANS_MINIMAP.lua
