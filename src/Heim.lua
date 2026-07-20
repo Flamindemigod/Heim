@@ -4,6 +4,10 @@ Heim.EM = EVENT_MANAGER;
 Heim.SM = SCENE_MANAGER;
 Heim.WM = WINDOW_MANAGER;
 Heim.name = "Heim";
+local addonInfo = HeimUtils.GetAddonInfo(Heim.name);
+Heim.title = addonInfo.title;
+Heim.author = addonInfo.author;
+Heim.desc = addonInfo.desc;
 Heim.scenes = {};
 Heim.fixes = {};
 
@@ -40,7 +44,7 @@ function Heim.LoadUI()
         alt_atr = Heim.Show(it, "ALTATTR_Container");
         alt_atr:ClearAnchors();
         alt_atr:SetAnchor(BOTTOM, control, TOP, 0,
-                          -1 * (alt_atr:GetHeight() + 16))
+                          -1 * (alt_atr:GetHeight() + 16));
 
         control = Heim.Show(it, "ALTGF_UnitFrames");
         control:ClearAnchors();
@@ -63,7 +67,7 @@ function Heim.LoadUI()
         control1:SetAnchor(TOPLEFT, control, TOPRIGHT, 16, 0);
 
         control = Heim.Show(it, "ZO_WorldMap");
-        control:ClearAnchors()
+        control:ClearAnchors();
         control:SetAnchor(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16 * 8)
         control1 = Heim.Show(it, "ZO_ActivityTrackerContainer");
         control1:ClearAnchors();
@@ -75,8 +79,8 @@ function Heim.LoadUI()
         Heim.Show(it, "ZO_LootHistoryControl_Gamepad");
         Heim.Show(it, "ZO_HousingHUDFragmentTopLevel");
     end
-    ZO_SynergyTopLevelContainerIcon:SetScale(1.4)
-    ZO_SynergyTopLevelContainerIcon:ClearAnchors()
+    ZO_SynergyTopLevelContainerIcon:SetScale(1.4);
+    ZO_SynergyTopLevelContainerIcon:ClearAnchors();
     ZO_SynergyTopLevelContainerIcon:SetAnchor(TOP, alt_atr, TOP, 0, -8 * 16);
 end
 

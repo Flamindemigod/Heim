@@ -18,22 +18,22 @@ function Stack:New(...) return ZO_HUDFadeSceneFragment.New(self, ...); end
 function Stack:Initialize(name, mode, gap, type)
     local root = Heim.WM:CreateControl(Heim.name .. name, GuiRoot,
                                        type or CT_TOPLEVELCONTROL);
-    ApplyTemplateToControl(root, "Heim_Stack")
+    ApplyTemplateToControl(root, "Heim_Stack");
     ZO_HUDFadeSceneFragment.Initialize(self, root);
     self.mode = mode;
-    self.gap = gap or 16
+    self.gap = gap or 16;
 end
 
 function Stack:HasChild(control)
     for it_index = 1, self.control:GetNumChildren() do
         local it = self.control:GetChild(it_index);
-        if (it == control) then return it_index end
+        if (it == control) then return it_index; end
     end
-    return nil
+    return nil;
 end
 
 function Stack:ComputeLayout()
-    if (self.requiresReLayout == nil) then return; end
+    if (self.requiresReLayout == nil) then return nil; end
     self.requiresReLayout = nil;
     for it_index = 1, self.control:GetNumChildren() do
         local it = self.control:GetChild(it_index);
@@ -51,20 +51,20 @@ end
 
 function Stack:OnShown()
     self:ComputeLayout();
-    self:SetState(SCENE_FRAGMENT_SHOWN)
+    self:SetState(SCENE_FRAGMENT_SHOWN);
 end
 
-function Stack:OnHidden() self:SetState(SCENE_FRAGMENT_HIDDEN) end
+function Stack:OnHidden() self:SetState(SCENE_FRAGMENT_HIDDEN); end
 
 function Stack:AppendChild(control)
     if (self:HasChild(control) == nil) then
         control:SetParent(self.control);
         control:SetHidden(false);
         if (self.requiresReLayout ~= nil) then
-            zo_removeCallLater(self.requiresReLayout)
+            zo_removeCallLater(self.requiresReLayout);
         end
         self.requiresReLayout = zo_callLater(function()
-            self:ComputeLayout()
+            self:ComputeLayout();
         end, 1);
     end
 end
@@ -78,7 +78,7 @@ function Stack:RemoveChild(control)
             zo_removeCallLater(self.requiresReLayout)
         end
         self.requiresReLayout = zo_callLater(function()
-            self:ComputeLayout()
+            self:ComputeLayout();
         end, 1);
     end
 end

@@ -3,22 +3,22 @@ HeimUtils = {};
 function HeimUtils.TODO(...) assert(false, ...); end
 
 function HeimUtils.Iota(init)
-    local __iota = init or 1
+    local __iota = init or 1;
     return function()
-        local i = __iota
-        __iota = __iota + 1
-        return i
+        local i = __iota;
+        __iota = __iota + 1;
+        return i;
     end
 end
 
 function HeimUtils.FragmentTblToMap(tbl)
-    local copy = {}
+    local copy = {};
     for _, value in pairs(tbl) do
         if (value.control ~= nil) then
-            copy[HeimUtils.GetFragmentName(value)] = value
+            copy[HeimUtils.GetFragmentName(value)] = value;
         end
     end
-    return copy
+    return copy;
 end
 
 function HeimUtils.MergeMaps(...)
@@ -33,10 +33,9 @@ function HeimUtils.GetFragmentName(fragment)
 end
 
 function HeimUtils.GetAddonInfo(addonName)
-    local manager = GetAddOnManager()
+    local manager = GetAddOnManager();
     for i = 1, manager:GetNumAddOns() do
-        -- Returns: string name, string title, string author, string description, boolean enabled, number AddOnLoadState state, boolean isOutOfDate, boolean isLibrary
-        local name, title, author, desc, _, state = manager:GetAddOnInfo(i)
+        local name, title, author, desc, _, state = manager:GetAddOnInfo(i);
         if name == addonName and state == ADDON_STATE_ENABLED then
             return {
                 name = name,
