@@ -40,9 +40,21 @@ function Stack:ComputeLayout()
         it:ClearAnchors();
         local anchorTarget = self.control:GetChild(it_index - 1);
         if (anchorTarget ~= nil) then
-            -- TODO: Handle all modes
-            it:SetAnchor(TOPLEFT, self.control:GetChild(it_index - 1), TOPRIGHT,
-                         self.gap, 0);
+            if (self.mode == STACK_MODE.UP) then
+                it:SetAnchor(BOTTOM, self.control:GetChild(it_index - 1), TOP,
+                             0, -1 * self.gap);
+            elseif (self.mode == STACK_MODE.DOWN) then
+                it:SetAnchor(TOP, self.control:GetChild(it_index - 1), BOTTOM,
+                             0, self.gap);
+            elseif (self.mode == STACK_MODE.LEFT) then
+                it:SetAnchor(TOPRIGHT, self.control:GetChild(it_index - 1),
+                             TOPLEFT, -1 * self.gap, 0);
+            elseif (self.mode == STACK_MODE.RIGHT) then
+                it:SetAnchor(TOPLEFT, self.control:GetChild(it_index - 1),
+                             TOPRIGHT, self.gap, 0);
+            else
+                HeimUtils.UNREACHABLE("%d is not a valid stack mode", self.mode);
+            end
         else
             it:SetAnchor(TOPLEFT, self.control, TOPLEFT, 0, 0);
         end

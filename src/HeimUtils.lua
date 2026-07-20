@@ -1,6 +1,11 @@
 HeimUtils = {};
 
-function HeimUtils.TODO(...) assert(false, ...); end
+function HeimUtils.TODO(fmt, ...)
+    assert(false, string.format("TODO: " .. fmt, ...));
+end
+function HeimUtils.UNREACHABLE(fmt, ...)
+    assert(false, string.format("UNREACHABLE: " .. fmt, ...));
+end
 
 function HeimUtils.Iota(init)
     local __iota = init or 1;
@@ -51,33 +56,38 @@ end
 local LOG_MODE_IOTA = HeimUtils.Iota();
 HeimUtils.LOG_MODE = {
     ERROR = LOG_MODE_IOTA(),
-    WARN  = LOG_MODE_IOTA(),
-    INFO  = LOG_MODE_IOTA(),
+    WARN = LOG_MODE_IOTA(),
+    INFO = LOG_MODE_IOTA(),
     DEBUG = LOG_MODE_IOTA(),
-    TRACE = LOG_MODE_IOTA(),
+    TRACE = LOG_MODE_IOTA()
 };
 
 function HeimUtils.Logger(moduleName, logMode)
     return {
         error = function(fmtStr, ...)
             if (logMode < HeimUtils.LOG_MODE.ERROR) then return nil; end
-            CHAT_SYSTEM:AddMessage("[" .. moduleName .. "] Error: " .. string.format(fmtStr, ...))
+            CHAT_SYSTEM:AddMessage("[" .. moduleName .. "] Error: " ..
+                                       string.format(fmtStr, ...))
         end,
         warn = function(fmtStr, ...)
             if (logMode < HeimUtils.LOG_MODE.WARN) then return nil; end
-            CHAT_SYSTEM:AddMessage("[" .. moduleName .. "] Warn: " .. string.format(fmtStr, ...))
+            CHAT_SYSTEM:AddMessage("[" .. moduleName .. "] Warn: " ..
+                                       string.format(fmtStr, ...))
         end,
         info = function(fmtStr, ...)
             if (logMode < HeimUtils.LOG_MODE.INFO) then return nil; end
-            CHAT_SYSTEM:AddMessage("[" .. moduleName .. "] Info: " .. string.format(fmtStr, ...))
+            CHAT_SYSTEM:AddMessage("[" .. moduleName .. "] Info: " ..
+                                       string.format(fmtStr, ...))
         end,
         debug = function(fmtStr, ...)
             if (logMode < HeimUtils.LOG_MODE.DEBUG) then return nil; end
-            CHAT_SYSTEM:AddMessage("[" .. moduleName .. "] Debug: " .. string.format(fmtStr, ...))
+            CHAT_SYSTEM:AddMessage("[" .. moduleName .. "] Debug: " ..
+                                       string.format(fmtStr, ...))
         end,
         trace = function(fmtStr, ...)
             if (logMode < HeimUtils.LOG_MODE.TRACE) then return nil; end
-            CHAT_SYSTEM:AddMessage("[" .. moduleName .. "] Trace: " .. string.format(fmtStr, ...))
+            CHAT_SYSTEM:AddMessage("[" .. moduleName .. "] Trace: " ..
+                                       string.format(fmtStr, ...))
         end
     }
 end
@@ -104,7 +114,7 @@ function HeimUtils.GetColor(hexValue)
 end
 
 function HeimUtils.SecondsToMinSecString(inputSecs)
-	local min = math.floor(inputSecs / 60)
-	local secs = inputSecs % 60
-	return string.format("%01d:%02d", min, secs)
+    local min = math.floor(inputSecs / 60)
+    local secs = inputSecs % 60
+    return string.format("%01d:%02d", min, secs)
 end
