@@ -4,14 +4,48 @@ Heim.EM = EVENT_MANAGER;
 Heim.SM = SCENE_MANAGER;
 Heim.WM = WINDOW_MANAGER;
 Heim.name = "Heim";
-local addonInfo = HeimUtils.GetAddonInfo(Heim.name);
-Heim.title = addonInfo.title;
-Heim.author = addonInfo.author;
-Heim.desc = addonInfo.desc;
 Heim.scenes = {};
 Heim.fixes = {};
 
 local DEBUG_MODE = false;
+local function InitLogger()
+    if (DEBUG_MODE) then
+        local LOG_MODE = HeimUtils.LOG_MODE.TRACE;
+        Heim.Log = HeimUtils.Logger(Heim.title, LOG_MODE);
+
+        local function format_vaargs(...)
+            local args = {...}
+            for i = 1, #args do args[i] = tostring(args[i]) end
+            return table.concat(args, ", ")
+        end
+
+        for name, it in pairs(Heim) do
+            if (it ~= nil and type(it) == "function") then
+                local wrapped = function(...)
+                    Heim.Log.trace("Calling function %s.%s(%s)", "Heim", name,
+                                   format_vaargs(...));
+                    it(...);
+                end
+                Heim[name] = wrapped;
+            end
+        end
+
+        for name, it in pairs(Heim.STACK) do
+            if (it ~= nil and type(it) == "function") then
+                local wrapped = function(...)
+                    Heim.Log.trace("Calling function %s.%s(%s)", "Heim.STACK", name,
+                                   format_vaargs(...));
+                    it(...);
+                end
+                Heim.STACK[name] = wrapped;
+            end
+        end
+    else
+        local LOG_MODE = HeimUtils.LOG_MODE.WARN;
+        Heim.Log = HeimUtils.Logger(Heim.title, LOG_MODE);
+    end
+end
+
 
 function Heim.Show(scene, fragment_name)
     local fragment = scene.fragmentList[fragment_name];
@@ -110,45 +144,15 @@ end
 function Heim.OnAddOnLoaded(event, addonName)
     if (addonName == Heim.name) then
         Heim.EM:RegisterForEvent(Heim.name .. "DeferredInit",
-                                 EVENT_PLAYER_ACTIVATED, Heim.Init);
+                                 EVENT_PLAYER_ACTIVATED, Heim.Init, true);
         Heim.EM:UnregisterForEvent(Heim.name, EVENT_ADD_ON_LOADED);
+        InitLogger();
+        local addonInfo = HeimUtils.GetAddonInfo(Heim.name);
+        Heim.title = addonInfo.title;
+        Heim.author = addonInfo.author;
+        Heim.desc = addonInfo.desc;
     end
 end
 
 Heim.EM:RegisterForEvent(Heim.name, EVENT_ADD_ON_LOADED, Heim.OnAddOnLoaded);
 
-if (DEBUG_MODE) then
-    local LOG_MODE = HeimUtils.LOG_MODE.TRACE;
-    Heim.Log = HeimUtils.Logger(Heim.title, LOG_MODE);
-
-    local function format_vaargs(...)
-        local args = {...}
-        for i = 1, #args do args[i] = tostring(args[i]) end
-        return table.concat(args, ", ")
-    end
-
-    for name, it in pairs(Heim) do
-        if (it ~= nil and type(it) == "function") then
-            local wrapped = function(...)
-                Heim.Log.trace("Calling function %s.%s(%s)", "Heim", name,
-                               format_vaargs(...));
-                it(...);
-            end
-            Heim[name] = wrapped;
-        end
-    end
-
-    for name, it in pairs(Heim.STACK) do
-        if (it ~= nil and type(it) == "function") then
-            local wrapped = function(...)
-                Heim.Log.trace("Calling function %s.%s(%s)", "Heim.STACK", name,
-                               format_vaargs(...));
-                it(...);
-            end
-            Heim.STACK[name] = wrapped;
-        end
-    end
-else
-    local LOG_MODE = HeimUtils.LOG_MODE.WARN;
-    Heim.Log = HeimUtils.Logger(Heim.title, LOG_MODE);
-end

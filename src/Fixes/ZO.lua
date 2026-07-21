@@ -57,6 +57,12 @@ function Heim.ZOFixes()
             self.lastSynergyName = nil;
         end
     end
+      function ZO_HUDTracker_Base:RefreshAnchors()
+        local style = self.currentStyle
+
+        self:RefreshAnchorSetOnControl(self.headerLabel, style.HEADER_PRIMARY_ANCHOR, style.HEADER_SECONDARY_ANCHOR)
+        self:RefreshAnchorSetOnControl(self.subLabel, style.SUBLABEL_PRIMARY_ANCHOR, style.SUBLABEL_SECONDARY_ANCHOR)
+    end
     -- Default UI Fragment. its a bit weird because it messes with a bunch of stuff in globla scope through methods and doesnt have any attributes itself;
     Heim.scenes.hud.scene:AddFragment_(HUD_FRAGMENT);
     -- https://github.com/esoui/esoui/blob/8c7b5f9c0bf1f35ac3dc2cfd3457f47e26f55880/esoui/ingame/scenes/ingamefragments.lua#L1079

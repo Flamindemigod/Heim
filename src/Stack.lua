@@ -13,9 +13,25 @@ local STACK_MODE = {
     RIGHT = STACK_MODE_IOTA()
 };
 
+function GetStackModeName(mode)
+    if (mode == STACK_MODE.UP) then
+        return "Up";
+    elseif (mode == STACK_MODE.DOWN) then
+        return "Down";
+    elseif (mode == STACK_MODE.LEFT) then
+        return "Left";
+    elseif (mode == STACK_MODE.RIGHT) then
+        return "Right";
+    else
+        return "<<UNKNOWN>>";
+    end
+end
+
 function Stack:New(...) return ZO_HUDFadeSceneFragment.New(self, ...); end
 
 function Stack:Initialize(name, mode, gap, type)
+    Heim.Log.debug("Initializing New Heim_Stack with name %s and type %d",
+                   Heim.name .. name, type or CT_TOPLEVELCONTROL);
     local root = Heim.WM:CreateControl(Heim.name .. name, GuiRoot,
                                        type or CT_TOPLEVELCONTROL);
     ApplyTemplateToControl(root, "Heim_Stack");
@@ -34,6 +50,8 @@ end
 
 function Stack:ComputeLayout()
     if (self.requiresReLayout == nil) then return nil; end
+    Heim.Log.debug("ReLayouting Stack %s with mode %s",
+                   HeimUtils.GetFragmentName(self), GetStackModeName(self.mode));
     self.requiresReLayout = nil;
     for it_index = 1, self.control:GetNumChildren() do
         local it = self.control:GetChild(it_index);
