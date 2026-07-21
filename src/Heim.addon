@@ -10,9 +10,9 @@ HeimUtils.lua
 Stack.lua
 Stack.xml
 
-Fixes/Default.lua
-Fixes/ZO.lua
+Patches/Default.lua
+Patches/ZO.lua
 Fixes/ALTFG.lua
 Fixes/EPT.lua
 Fixes/HT.lua
-Fixes/VOTANS_MINIMAP.lua
+Patches/VOTANS_MINIMAP.lua
