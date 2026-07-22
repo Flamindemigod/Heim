@@ -4,9 +4,7 @@ Heim.inits = Heim.inits or {};
 Heim.defaults = Heim.defaults or {};
 Heim.config = Heim.config or {};
 
-function Heim.BuildDefaultConfig()
-    for _, it in pairs(Heim.defaults) do it(); end
-end
+function Heim.BuildDefaultConfig() for _, it in pairs(Heim.defaults) do it(); end end
 
 function Heim.LoadPatches()
     Heim.ZOPatches();

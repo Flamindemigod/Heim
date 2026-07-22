@@ -45,24 +45,25 @@ local function InitLogger()
     end
 end
 
-function Heim.Show(scene, fragment_name)
-    local fragment = scene.fragmentList[fragment_name];
-    if (fragment ~= nil) then
-        scene.scene:AddFragment_(fragment);
-        return fragment.control;
-    end
+function Heim.IsEnabled(config)
+    return config.enable and config.position:IsValid();
 end
 
 function Heim.LoadUI()
     Heim.config.ZOCompass = {
         enable = true,
-        position = ZO_Anchor:New(TOP, GuiRoot, TOP, 0, 16 * 4),
+        position = Heim.ANCHOR:New(TOP, GuiRoot, TOP, 0, 16 * 4),
         size = {w = 1024, h = 64}
     };
     Heim.config.VotansMinimap = {
         enable = true,
-        position = ZO_Anchor:New(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16 * 8),
-        size = {w = 64*4, h = 64*4}
+        position = Heim.ANCHOR:New(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16 * 8),
+        size = {w = 64 * 4, h = 64 * 4}
+    };
+    Heim.config.ZOHousingHud = {
+        enable = true,
+        position = Heim.ANCHOR:New(TOPLEFT, Heim.config.VotansMinimap,
+                                   BOTTOMLEFT, -16, 16)
     };
 
 end

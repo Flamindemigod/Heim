@@ -9,6 +9,7 @@ Heim.lua
 HeimUtils.lua
 Stack.lua
 Stack.xml
+Anchor.lua
 
 Patches/Default.lua
 Patches/ZO.lua
