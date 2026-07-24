@@ -19,6 +19,7 @@ end
 
 function Anchor:Initialize(posOnSelf, target, posOnTarget, offsetX, offsetY,
                            constrain)
+    self.__type = "HeimAnchor";
     self.isAlive = true;
     if (target == GuiRoot or target == nil) then
         target = {control = GuiRoot};

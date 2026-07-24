@@ -63,6 +63,7 @@ function Heim.ZOPatches()
     function ZO_HouseInformationTracker:InitializeStyles()
         housingHud = Heim.IsEnabled(Heim.config.ZOHousingHud) and
                          Heim.config.ZOHousingHud or defaultConfHousingHud();
+        Heim.config.ZOHousingHud.control = self.control
         local style = {
             CONTAINER_PRIMARY_ANCHOR = ZO_Anchor:New(TOPLEFT),
             CONTAINER_SECONDARY_ANCHOR = ZO_Anchor:New(TOPRIGHT),

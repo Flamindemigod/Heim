@@ -50,22 +50,28 @@ function Heim.IsEnabled(config)
 end
 
 function Heim.LoadUI()
-    Heim.config.ZOCompass = {
+    local config = {};
+    config.ZOCompass = {
         enable = true,
         position = Heim.ANCHOR:New(TOP, GuiRoot, TOP, 0, 16 * 4),
         size = {w = 1024, h = 64}
     };
-    Heim.config.VotansMinimap = {
+    config.VotansMinimap = {
         enable = true,
-        position = Heim.ANCHOR:New(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16 * 8),
-        size = {w = 64 * 4, h = 64 * 4}
+        position = Heim.ANCHOR:New(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16 * 8)
     };
-    Heim.config.ZOHousingHud = {
+    config.ZOHousingHud = {
         enable = true,
         position = Heim.ANCHOR:New(TOPLEFT, Heim.config.VotansMinimap,
                                    BOTTOMLEFT, -16, 16)
     };
-
+    config.AltGF = {
+        enable = true,
+        position = Heim.ANCHOR:New(TOPLEFT, GuiRoot, TOPLEFT, 16, 16),
+        show_no_group = true,
+        unit_frame = {h = 16 * 3, w = 16 * 20}
+    };
+    return config;
 end
 
 -- function Heim.LoadUI()
@@ -136,21 +142,21 @@ end
 function Heim.Init()
     if (Heim.SM ~= nil) then
         Heim.BuildDefaultConfig();
-        Heim.LoadUI();
+        Heim.config = HeimUtils.MergeMaps(true, Heim.config, Heim.LoadUI());
         Heim.LoadPatches();
     end
 end
 
 function Heim.OnAddOnLoaded(event, addonName)
     if (addonName == Heim.name) then
-        Heim.EM:RegisterForEvent(Heim.name .. "DeferredInit",
-                                 EVENT_PLAYER_ACTIVATED, Heim.Init, true);
-        Heim.EM:UnregisterForEvent(Heim.name, EVENT_ADD_ON_LOADED);
-        InitLogger();
         local addonInfo = HeimUtils.GetAddonInfo(Heim.name);
         Heim.title = addonInfo.title;
         Heim.author = addonInfo.author;
         Heim.desc = addonInfo.desc;
+        InitLogger();
+        Heim.EM:RegisterForEvent(Heim.name .. "DeferredInit",
+                                 EVENT_PLAYER_ACTIVATED, Heim.Init, true);
+        Heim.EM:UnregisterForEvent(Heim.name, EVENT_ADD_ON_LOADED);
     end
 end
 

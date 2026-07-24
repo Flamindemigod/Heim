@@ -26,9 +26,21 @@ function HeimUtils.FragmentTblToMap(tbl)
     return copy;
 end
 
-function HeimUtils.MergeMaps(...)
-    local dest = {};
-    for _, it in ipairs({...}) do for k, v in pairs(it) do dest[k] = v; end end
+local function __type(obj)
+    if (type(obj) == "table" and obj.__type ~= nil) then return obj.__type; end
+    return type(obj);
+end
+function HeimUtils.MergeMaps(deep, dest, ...)
+    for _, it in ipairs({...}) do
+        for k, v in pairs(it) do
+            if (deep == true and __type(dest[k]) == "table" and __type(v) ==
+                "table") then
+                dest[k] = HeimUtils.MergeMaps(deep, dest[k], v);
+            else
+                dest[k] = v;
+            end
+        end
+    end
     return dest;
 end
 
