@@ -60,6 +60,10 @@ function Heim.LoadUI()
         enable = true,
         position = Heim.ANCHOR:New(BOTTOMLEFT, GuiRoot, BOTTOMLEFT, -16, 16)
     };
+    config.FAB = {
+        enable = true,
+        position = Heim.ANCHOR:New(BOTTOM, GuiRoot, BOTTOM, 0, -16*4)
+    };
     config.VotansMinimap = {
         enable = true,
         position = Heim.ANCHOR:New(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16 * 8)

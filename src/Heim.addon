@@ -14,6 +14,7 @@ Anchor.lua
 Patches/Default.lua
 Patches/ZO.lua
 Patches/ALTGF.lua
+Patches/FAB.lua
 Fixes/EPT.lua
 Fixes/HT.lua
 Patches/VOTANS_MINIMAP.lua
