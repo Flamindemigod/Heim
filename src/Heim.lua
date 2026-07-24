@@ -56,6 +56,10 @@ function Heim.LoadUI()
         position = Heim.ANCHOR:New(TOP, GuiRoot, TOP, 0, 16 * 4),
         size = {w = 1024, h = 64}
     };
+    config.ZOPerformanceMeters = {
+        enable = true,
+        position = Heim.ANCHOR:New(BOTTOMLEFT, GuiRoot, BOTTOMLEFT, -16, 16)
+    };
     config.VotansMinimap = {
         enable = true,
         position = Heim.ANCHOR:New(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16 * 8)
@@ -79,15 +83,9 @@ end
 --     local hud = Heim.scenes.hud;
 --     local hudui = Heim.scenes.hudui;
 --     for _, it in pairs({hud, hudui}) do
---         control = Heim.Show(it, "ZO_CompassFrame");
---         control:SetDimensionConstraints(1000, 50, 1500, 50);
---         control:SetWidth(1500);
 --         Heim.Show(it, "ZO_Death");
 --         Heim.Show(it, "ZO_DeathRecap");
 --         Heim.Show(it, "ZO_DyanmicEventsTracker_TLContainer");
---         control = Heim.Show(it, "ZO_PerformanceMeters");
---         control:ClearAnchors();
---         control:SetAnchor(BOTTOMLEFT, GuiRoot, BOTTOMLEFT, -16, 16);
 --         Heim.Show(it, "HyperTools_Trackers");
 --         Heim.Show(it, "HyperTools_3D");
 --         control = Heim.Show(it, "ZO_ActionBar1");
@@ -101,9 +99,6 @@ end
 --         alt_atr:SetAnchor(BOTTOM, control, TOP, 0,
 --                           -1 * (alt_atr:GetHeight() + 16));
 --
---         control = Heim.Show(it, "ALTGF_UnitFrames");
---         control:ClearAnchors();
---         control:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 16, 16);
 --         control1 = Heim.Show(it, "HodorReflexes_Share_Damage");
 --         control1:ClearAnchors();
 --         control1:SetAnchor(TOPLEFT, control, TOPRIGHT, 16, 0);
@@ -121,15 +116,9 @@ end
 --         control1:ClearAnchors();
 --         control1:SetAnchor(TOPLEFT, control, TOPRIGHT, 16, 0);
 --
---         control = Heim.Show(it, "ZO_WorldMap");
---         control:ClearAnchors();
---         control:SetAnchor(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16 * 8)
 --         control1 = Heim.Show(it, "ZO_ActivityTrackerContainer");
 --         control1:ClearAnchors();
 --         control1:SetAnchor(TOPRIGHT, control, BOTTOMRIGHT, 0, 16);
---         control = Heim.Show(it, "ZO_HouseInformationTrackerTopLevelContainer");
---         control:ClearAnchors();
---         control:SetAnchor(TOPRIGHT, control1, BOTTOMRIGHT, 0, 16);
 --         Heim.Show(it, "M0RMarkersToplevel");
 --         Heim.Show(it, "ZO_LootHistoryControl_Gamepad");
 --         Heim.Show(it, "ZO_HousingHUDFragmentTopLevel");

@@ -28,6 +28,13 @@ local function defaultConfHousingHud()
     };
 end
 
+local function defaultConfPerformanceMeters()
+    return {
+        enable = false,
+        position = Heim.ANCHOR:New(BOTTOMLEFT, GuiRoot, BOTTOMLEFT, -20, 20)
+    };
+end
+
 function Heim.ZOPatches()
     local compass = Heim.config.ZOCompass;
     function COMPASS_FRAME:ApplyStyle()
@@ -97,6 +104,7 @@ function Heim.ZOPatches()
 
         ZO_HUDTracker_Base.InitializeStyles(self)
     end
+    do end
 end
 
 local function init()
@@ -109,7 +117,19 @@ local function init()
     HeimUtils.RunWhenTrue(function()
         return Heim.config.ZOHousingHud.position:IsValid()
     end, function() HOUSE_INFORMATION_TRACKER:InitializeStyles() end)
+    HeimUtils.RunWhenTrue(function()
+        return Heim.config.ZOPerformanceMeters.position:IsValid()
+    end, function()
+        local conf = Heim.IsEnabled(Heim.config.ZOPerformanceMeters) and
+                         Heim.config.ZOPerformanceMeters or
+                         defaultConfPerformanceMeters();
+        PERFORMANCE_METERS.control:SetMovable(false);
+        conf.position:AddToControl(PERFORMANCE_METERS.control, true);
+    end)
 end
 table.insert(Heim.inits, init);
-table.insert(Heim.defaults,
-             function() Heim.config.ZOCompass = defaultConfCompass() end);
+table.insert(Heim.defaults, function()
+    Heim.config.ZOCompass = defaultConfCompass();
+    Heim.config.ZOHousingHud = defaultConfHousingHud();
+    Heim.config.ZOPerformanceMeters = defaultConfPerformanceMeters();
+end);
