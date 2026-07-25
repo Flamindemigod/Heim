@@ -60,9 +60,16 @@ function Heim.LoadUI()
         enable = true,
         position = Heim.ANCHOR:New(BOTTOMLEFT, GuiRoot, BOTTOMLEFT, -16, 16)
     };
+    config.ZOChat = {
+        enable = true,
+        position = Heim.ANCHOR:New(BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, -16,
+                                   -16 * 8),
+        scale = 1.5,
+        minimize_direction = "right"
+    };
     config.FAB = {
         enable = true,
-        position = Heim.ANCHOR:New(BOTTOM, GuiRoot, BOTTOM, 0, -16*4)
+        position = Heim.ANCHOR:New(BOTTOM, GuiRoot, BOTTOM, 0, -16 * 4)
     };
     config.VotansMinimap = {
         enable = true,
