@@ -340,13 +340,10 @@ local function init()
     HeimUtils.RunWhenTrue(function()
         return Heim.config.HeimAtrs.position:IsValid()
     end, function()
-        if (Heim.IsEnabled(Heim.config.HeimAtrs)) then
-            HeimAtrs.Init()
-        end
+        if (Heim.IsEnabled(Heim.config.HeimAtrs)) then HeimAtrs.Init() end
     end)
 end
 
 table.insert(Heim.inits, init);
-table.insert(Heim.defaults, function()
-    Heim.config.HeimAtrs = HeimAtrs.defaultConf();
-end);
+table.insert(Heim.defaults,
+             function() Heim.config.HeimAtrs = HeimAtrs.defaultConf(); end);
