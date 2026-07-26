@@ -26,6 +26,7 @@ local function patch()
         HUD_UI_SCENE:AddFragment(Stack);
         SIEGE_BAR_SCENE:AddFragment(Stack);
         SIEGE_BAR_UI_SCENE:AddFragment(Stack);
+        table.insert(ZO_NO_DEAD_FRAGMENTS, HeimAtrs.frag);
         function EPT:CreateGui(setId)
             local name = tostring(setId);
             local gui = {};
