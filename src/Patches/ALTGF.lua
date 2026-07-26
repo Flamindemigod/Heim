@@ -15,7 +15,7 @@ local function defaultConf()
         show_level = false,
         show_no_group = false,
         alpha = {full = 1, faded = 0.4},
-        position = Heim.ANCHOR:New(TOPLEFT, GuiRoot, TOPLEFT, 50, 55),
+        position = Heim.ANCHOR:New({TOPLEFT, GuiRoot, TOPLEFT, 50, 55}),
         unit_frame = {
             frames_per_column = 12,
             h = 32,

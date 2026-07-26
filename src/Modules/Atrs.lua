@@ -11,7 +11,7 @@ HeimAtrs.name = string.format("%s_%s", Heim.name, "Atrs");
 function HeimAtrs.defaultConf()
     return {
         enable = true,
-        position = Heim.ANCHOR:New(BOTTOM, ZO_ActionBar1, TOP, 0, -32),
+        position = Heim.ANCHOR:New({BOTTOM, ZO_ActionBar1, TOP, 0, -32}),
         flipped = false,
         scale = 1,
         layout = "stacked" -- stacked | pyramid

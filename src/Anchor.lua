@@ -17,10 +17,7 @@ function Anchor:New(...)
     return object;
 end
 
-function Anchor:Initialize(posOnSelf, target, posOnTarget, offsetX, offsetY,
-                           constrain)
-    self.__type = "HeimAnchor";
-    self.isAlive = true;
+local function validateTarget(target)
     if (target == GuiRoot or target == nil) then
         target = {control = GuiRoot};
     end
@@ -28,16 +25,41 @@ function Anchor:Initialize(posOnSelf, target, posOnTarget, offsetX, offsetY,
     assert(type(target) == "table",
            "target should be either `GuiRoot` or a table. " ..
                string.format("Got %s", type(target)));
-    self.posOnSelf = posOnSelf or TOPLEFT;
-    self.target = target;
-    self.posOnTarget = posOnTarget or self.PosOnSelf;
-    self.offsetX = offsetX or 0;
-    self.offsetY = offsetY or 0;
-    self.constrain = constrain or ANCHOR_CONSTRAINS_XY;
+    return target;
+end
+
+function Anchor:Initialize(a1, a2)
+    self.__type = "HeimAnchor";
+    self.isAlive = true;
+    do
+        local posOnSelf, target, posOnTarget, offsetX, offsetY, constrain =
+            unpack(a1);
+        self.posOnSelf = posOnSelf or TOPLEFT;
+        self.target = validateTarget(target);
+        self.posOnTarget = posOnTarget or self.posOnSelf;
+        self.offsetX = offsetX or 0;
+        self.offsetY = offsetY or 0;
+        self.constrain = constrain or ANCHOR_CONSTRAINS_XY;
+    end
+    if (a2 ~= nil) then
+        local posOnSelf, target, posOnTarget, offsetX, offsetY, constrain =
+            unpack(a2);
+        self.posOnSelf1 = posOnSelf or TOPLEFT;
+        self.target1 = validateTarget(target);
+        self.posOnTarget1 = posOnTarget or self.PosOnSelf;
+        self.offsetX1 = offsetX or 0;
+        self.offsetY1 = offsetY or 0;
+        self.constrain1 = constrain or ANCHOR_CONSTRAINS_XY;
+    end
 end
 
 function Anchor:IsValid()
-    return self.isAlive == true and self.target.control ~= nil;
+    if (self.isAlive == false) then return false; end
+    if (self.target.control == nil) then return false; end
+    if (self.target1 ~= nil and self.target1.control == nil) then
+        return false;
+    end
+    return true;
 end
 
 function Anchor:AddToControl(control, clearAnchor)
@@ -46,6 +68,11 @@ function Anchor:AddToControl(control, clearAnchor)
     control:SetAnchor(ZO_Eval(self.posOnSelf), self.target.control,
                       ZO_Eval(self.posOnTarget), ZO_Eval(self.offsetX),
                       ZO_Eval(self.offsetY), ZO_Eval(self.constrain));
+    if (self.target1 ~= nil) then
+        control:SetAnchor(ZO_Eval(self.posOnSelf1), self.target1.control,
+                          ZO_Eval(self.posOnTarget1), ZO_Eval(self.offsetX1),
+                          ZO_Eval(self.offsetY1), ZO_Eval(self.constrain1));
+    end
 end
 
 function Anchor:AsZOAnchor()
@@ -53,6 +80,13 @@ function Anchor:AsZOAnchor()
     return ZO_Anchor:New(ZO_Eval(self.posOnSelf), self.target.control,
                          ZO_Eval(self.posOnTarget), ZO_Eval(self.offsetX),
                          ZO_Eval(self.offsetY), ZO_Eval(self.constrain));
+end
+
+function Anchor:AsZOAnchor1()
+    if (self:IsValid() ~= true) then return nil; end
+    return ZO_Anchor:New(ZO_Eval(self.posOnSelf1), self.target1.control,
+                         ZO_Eval(self.posOnTarget1), ZO_Eval(self.offsetX1),
+                         ZO_Eval(self.offsetY1), ZO_Eval(self.constrain1));
 end
 
 Heim.ANCHOR = Anchor;

@@ -11,8 +11,9 @@ local function defaultConf()
     local UIWidth, UIHeight = GuiRoot:GetDimensions()
     return {
         enable = false,
-        position = Heim.ANCHOR:New(CENTER, GuiRoot, CENTER, (UIWidth / 2 - 304),
-                                   (UIHeight / 2 - 368)),
+        position = Heim.ANCHOR:New({
+            CENTER, GuiRoot, CENTER, (UIWidth / 2 - 304), (UIHeight / 2 - 368)
+        }),
         size = {h = 304, w = 368}
     };
 end

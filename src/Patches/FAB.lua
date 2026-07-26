@@ -9,7 +9,7 @@ Heim.config = Heim.config or {};
 local function defaultConf()
     return {
         enable = false,
-        position = Heim.ANCHOR:New(BOTTOM, GuiRoot, BOTTOM, 0, -64)
+        position = Heim.ANCHOR:New({BOTTOM, GuiRoot, BOTTOM, 0, -64})
     };
 end
 

@@ -7,7 +7,7 @@ Heim.config = Heim.config or {};
 local function defaultConfCompass()
     return {
         enable = false,
-        position = Heim.ANCHOR:New(TOP, GuiRoot, TOP, 0, 58),
+        position = Heim.ANCHOR:New({TOP, GuiRoot, TOP, 0, 58}),
         size = {
             h = ZO_COMPASS_FRAME_HEIGHT_GAMEPAD,
             w = function()
@@ -23,22 +23,23 @@ end
 local function defaultConfHousingHud()
     return {
         enable = false,
-        position = Heim.ANCHOR:New(TOPLEFT, ZO_PromotionalEventTracker_TL,
-                                   BOTTOMLEFT)
+        position = Heim.ANCHOR:New({
+            TOPLEFT, ZO_PromotionalEventTracker_TL, BOTTOMLEFT
+        })
     };
 end
 
 local function defaultConfPerformanceMeters()
     return {
         enable = false,
-        position = Heim.ANCHOR:New(BOTTOMLEFT, GuiRoot, BOTTOMLEFT, -20, 20)
+        position = Heim.ANCHOR:New({BOTTOMLEFT, GuiRoot, BOTTOMLEFT, -20, 20})
     };
 end
 
 local function defaultConfChat()
     return {
         enable = false,
-        position = Heim.ANCHOR:New(BOTTOMLEFT, GuiRoot, BOTTOMLEFT, 0, -64),
+        position = Heim.ANCHOR:New({BOTTOMLEFT, GuiRoot, BOTTOMLEFT, 0, -64}),
         scale = 1,
         minimize_direction = "left",
         size = {w = 16 * 42, h = 16 * 42 * (3 / 4)}

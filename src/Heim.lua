@@ -58,42 +58,44 @@ function Heim.LoadUI()
     local config = {};
     config.ZOCompass = {
         enable = true,
-        position = Heim.ANCHOR:New(TOP, GuiRoot, TOP, 0, 16 * 4),
+        position = Heim.ANCHOR:New({TOP, GuiRoot, TOP, 0, 16 * 4}),
         size = {w = 1024, h = 64}
     };
     config.ZOPerformanceMeters = {
         enable = true,
-        position = Heim.ANCHOR:New(BOTTOMLEFT, GuiRoot, BOTTOMLEFT, -16, 16)
+        position = Heim.ANCHOR:New({BOTTOMLEFT, GuiRoot, BOTTOMLEFT, -16, 16})
     };
     config.ZOChat = {
         enable = true,
-        position = Heim.ANCHOR:New(BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, -16,
-                                   -16 * 8),
+        position = Heim.ANCHOR:New({
+            BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, -16, -16 * 8
+        }),
         scale = 1.5,
         minimize_direction = "right"
     };
     config.FAB = {
         enable = true,
-        position = Heim.ANCHOR:New(BOTTOM, GuiRoot, BOTTOM, 0, -16 * 4)
+        position = Heim.ANCHOR:New({BOTTOM, GuiRoot, BOTTOM, 0, -16 * 4})
     };
     config.VotansMinimap = {
         enable = true,
-        position = Heim.ANCHOR:New(TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16 * 8)
+        position = Heim.ANCHOR:New({TOPRIGHT, GuiRoot, TOPRIGHT, -16, 16 * 8})
     };
     config.ZOHousingHud = {
         enable = true,
-        position = Heim.ANCHOR:New(TOPLEFT, Heim.config.VotansMinimap,
-                                   BOTTOMLEFT, -16, 16)
+        position = Heim.ANCHOR:New({
+            TOPLEFT, Heim.config.VotansMinimap, BOTTOMLEFT, -16, 16
+        })
     };
     config.AltGF = {
         enable = true,
-        position = Heim.ANCHOR:New(TOPLEFT, GuiRoot, TOPLEFT, 16, 16),
+        position = Heim.ANCHOR:New({TOPLEFT, GuiRoot, TOPLEFT, 16, 16}),
         show_no_group = true,
         unit_frame = {h = 16 * 3, w = 16 * 20}
     };
     config.HeimAtrs = {
         enable = true,
-        position = Heim.ANCHOR:New(BOTTOM, ZO_ActionBar1, TOP, 0, -16),
+        position = Heim.ANCHOR:New({BOTTOM, ZO_ActionBar1, TOP, 0, -16}),
         flipped = true,
         scale = 1.2,
         layout = "stacked" -- stacked | pyramid
