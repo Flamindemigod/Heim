@@ -18,6 +18,7 @@ Patches/Default.lua
 Patches/ZO.lua
 Patches/ALTGF.lua
 Patches/FAB.lua
+Patches/CrutchAlerts.lua
 Fixes/EPT.lua
 Fixes/HT.lua
 Patches/VOTANS_MINIMAP.lua

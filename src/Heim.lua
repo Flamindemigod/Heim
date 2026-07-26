@@ -95,10 +95,21 @@ function Heim.LoadUI()
     };
     config.HeimAtrs = {
         enable = true,
-        position = Heim.ANCHOR:New({BOTTOM, ZO_ActionBar1, TOP, 0, -16}),
+        position = Heim.ANCHOR:New({
+            BOTTOMRIGHT, Heim.config.Crutch.bossBar, BOTTOMLEFT, -32, 69
+        }),
         flipped = true,
         scale = 1.2,
         layout = "stacked" -- stacked | pyramid
+    };
+    config.Crutch = {
+        enable = true,
+        bossBar = {
+            enable = true,
+            position = Heim.ANCHOR:New({
+                BOTTOM, ZO_ActionBar1, TOP, 0, -16 * 12, ANCHOR_CONSTRAINS_Y
+            }, {BOTTOMLEFT, ZO_ActionBar1, TOPRIGHT, 0, 0, ANCHOR_CONSTRAINS_X})
+        }
     };
     return config;
 end
