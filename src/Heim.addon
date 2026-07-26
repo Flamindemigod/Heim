@@ -11,6 +11,9 @@ Stack.lua
 Stack.xml
 Anchor.lua
 
+Modules/Atrs.lua
+Modules/Atrs.xml
+
 Patches/Default.lua
 Patches/ZO.lua
 Patches/ALTGF.lua

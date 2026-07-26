@@ -5,6 +5,10 @@ Heim.SM = SCENE_MANAGER;
 Heim.WM = WINDOW_MANAGER;
 Heim.name = "Heim";
 Heim.config = Heim.config or {};
+Heim.inits = Heim.inits or {};
+function Heim.Inits() for _, it in pairs(Heim.inits) do it(); end end
+Heim.defaults = Heim.defaults or {};
+function Heim.BuildDefaultConfig() for _, it in pairs(Heim.defaults) do it(); end end
 
 local DEBUG_MODE = false;
 local function InitLogger()
@@ -46,6 +50,7 @@ local function InitLogger()
 end
 
 function Heim.IsEnabled(config)
+    if (config == nil or config.position == nil) then return false; end
     return config.enable and config.position:IsValid();
 end
 
@@ -85,6 +90,13 @@ function Heim.LoadUI()
         position = Heim.ANCHOR:New(TOPLEFT, GuiRoot, TOPLEFT, 16, 16),
         show_no_group = true,
         unit_frame = {h = 16 * 3, w = 16 * 20}
+    };
+    config.HeimAtrs = {
+        enable = true,
+        position = Heim.ANCHOR:New(BOTTOM, ZO_ActionBar1, TOP, 0, -16),
+        flipped = true,
+        scale = 1.2,
+        layout = "stacked" -- stacked | pyramid
     };
     return config;
 end
@@ -144,6 +156,7 @@ function Heim.Init()
         Heim.BuildDefaultConfig();
         Heim.config = HeimUtils.MergeMaps(true, Heim.config, Heim.LoadUI());
         Heim.LoadPatches();
+        Heim.Inits();
     end
 end
 
