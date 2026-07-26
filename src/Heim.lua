@@ -107,9 +107,16 @@ function Heim.LoadUI()
         bossBar = {
             enable = true,
             position = Heim.ANCHOR:New({
-                BOTTOM, ZO_ActionBar1, TOP, 0, -16 * 12, ANCHOR_CONSTRAINS_Y
+                BOTTOM, ZO_ActionBar1, TOP, 0, -16 * 10, ANCHOR_CONSTRAINS_Y
             }, {BOTTOMLEFT, ZO_ActionBar1, TOPRIGHT, 0, 0, ANCHOR_CONSTRAINS_X})
         }
+    };
+    config.EPT = {
+        enable = true,
+        position = Heim.ANCHOR:New({
+            TOPRIGHT, Heim.config.HeimAtrs, BOTTOMRIGHT, 5, -24
+        }),
+        stackDirection = Heim.STACK_MODE.LEFT
     };
     return config;
 end
