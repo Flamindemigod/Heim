@@ -43,12 +43,13 @@ local function init()
         HeimUtils.RunWhenTrue(function()
             return Heim.config.VotansMinimap.position:IsValid()
         end, function() VOTANS_MINIMAP:RestorePosition(); end)
-        --XXX:Hack
+        -- XXX:Hack
         Heim.EM:RegisterForEvent(Heim.name .. VOTANS_MINIMAP.name,
                                  EVENT_PLAYER_ACTIVATED, function()
-            zo_callLater(function ()
+            zo_callLater(function()
                 VOTANS_MINIMAP:RestorePosition();
-                ZO_WorldMapScroll:SetDimensions(ZO_WorldMapScroll:GetDimensions());
+                ZO_WorldMapScroll:SetDimensions(
+                    ZO_WorldMapScroll:GetDimensions());
             end, 1);
         end);
     end

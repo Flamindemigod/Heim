@@ -9,7 +9,7 @@ local function AnchorReset(anchor)
     self.isAlive = false;
 end
 
-local pool = ZO_ObjectPool:New(AnchorFactory)
+local pool = ZO_ObjectPool:New(AnchorFactory, AnchorReset)
 
 function Anchor:New(...)
     object, _ = pool:AcquireObject();
