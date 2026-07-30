@@ -14,6 +14,9 @@ Anchor.lua
 Modules/Atrs.lua
 Modules/Atrs.xml
 
+Modules/Auras.lua
+Modules/Auras.xml
+
 Patches/Default.lua
 Patches/ZO.lua
 Patches/ALTGF.lua
