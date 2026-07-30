@@ -162,58 +162,56 @@ function Heim.LoadUI()
     config.Auras = {
         enable = true,
         windows = {
-                {
-                    position = Heim.ANCHOR:New({BOTTOM, Heim.config.HeimAtrs, TOP, 0, -8}),
-                    auras = {
+            {
+                position = Heim.ANCHOR:New({
+                    BOTTOM, Heim.config.HeimAtrs, TOP, 0, -8
+                }),
+                auras = {
                     {aura = 106754, target = "boss"},
                     {aura = 2727, target = "boss"}
                 },
-                    stackMode = Heim.STACK_MODE.UP,
-                    gap = 4,
-                    auraMode = Heim.AURAS_WINDOW_MODE.PROGRESS_FLIPPED,
-                    scale = 1,
-                },
-                {
-                    position = Heim.ANCHOR:New({RIGHT, ZO_ActionBar1, LEFT, -64, 0}),
-                    auras = {
-                    --Generic Debuffs
-                    {aura = 69143, target = "player"},
-                    --DSR Debuffs
-                    {aura = 174961, target = "player"},
-                    --Twins Debuffs
+                stackMode = Heim.STACK_MODE.UP,
+                gap = 4,
+                auraMode = Heim.AURAS_WINDOW_MODE.PROGRESS_FLIPPED,
+                scale = 1
+            }, {
+                position = Heim.ANCHOR:New({RIGHT, ZO_ActionBar1, LEFT, -64, 0}),
+                auras = {
+                    -- Generic Debuffs
+                    {aura = 69143, target = "player"}, -- DSR Debuffs
+                    {aura = 174961, target = "player"}, -- Twins Debuffs
                     {aura = 166482, target = "player"},
                     {aura = 166472, target = "player"},
                     {aura = 168525, target = "player"},
                     {aura = 168526, target = "player"},
                     {aura = 166529, target = "player"},
-                    {aura = 166525, target = "player"},
-                    --Reef Debuffs
+                    {aura = 166525, target = "player"}, -- Reef Debuffs
                     {aura = 166638, target = "player"},
-                    {aura = 174659, target = "player"},
-                    --Taleria Debuffs
+                    {aura = 174659, target = "player"}, -- Taleria Debuffs
                     {aura = 169935, target = "player"},
                     {aura = 169938, target = "player"},
                     {aura = 169936, target = "player"}
                 },
-                    stackMode = Heim.STACK_MODE.LEFT,
-                    gap = 4,
-                    auraMode = Heim.AURAS_WINDOW_MODE.ICON,
-                    scale = 1.2,
-                    resize = true,
-                },
-                {
-                    position = Heim.ANCHOR:New({BOTTOM, ZO_ActionBar1, TOPLEFT, -16, -32*4}),
-                    auras = {
+                stackMode = Heim.STACK_MODE.LEFT,
+                gap = 4,
+                auraMode = Heim.AURAS_WINDOW_MODE.ICON,
+                scale = 1.2,
+                resize = true
+            }, {
+                position = Heim.ANCHOR:New({
+                    BOTTOM, ZO_ActionBar1, TOPLEFT, -16, -32 * 4
+                }),
+                auras = {
                     {aura = 109966, target = "player"},
                     {aura = 61747, target = "player"},
                     {aura = 93109, target = "player"},
-                    {aura = 61745, target = "player"},
+                    {aura = 61745, target = "player"}
                 },
-                    stackMode = Heim.STACK_MODE.UP,
-                    gap = 4,
-                    auraMode = Heim.AURAS_WINDOW_MODE.PROGRESS,
-                    scale = 1,
-                }
+                stackMode = Heim.STACK_MODE.UP,
+                gap = 4,
+                auraMode = Heim.AURAS_WINDOW_MODE.PROGRESS,
+                scale = 1
+            }
         }
     };
     return config;

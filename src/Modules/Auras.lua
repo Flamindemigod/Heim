@@ -196,7 +196,7 @@ function Auras.Init()
             Auras.windows[it_iter].control:SetScale(it.scale)
         end)
     end
-    Heim.EM:RegisterForEvent(Auras.name, EVENT_PLAYER_ACTIVATED, function () 
+    Heim.EM:RegisterForEvent(Auras.name, EVENT_PLAYER_ACTIVATED, function()
         for it_iter, it in pairs(Auras.windows) do
             for jt_jter, jt in pairs(it.trackers) do
                 it:RemoveChild(jt.control);
