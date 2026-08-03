@@ -164,16 +164,22 @@ function Heim.LoadUI()
         windows = {
             {
                 position = Heim.ANCHOR:New({
-                    BOTTOM, Heim.config.HeimAtrs, TOP, 0, -8
+                    BOTTOM, Heim.config.HeimAtrs, TOP, 0, -8,
+                    ANCHOR_CONSTRAINS_Y
+                }, {
+
+                    RIGHT, Heim.config.Crutch.bossBar, LEFT, -8, 0,
+                    ANCHOR_CONSTRAINS_X
                 }),
                 auras = {
                     {aura = 106754, target = "boss"},
-                    {aura = 2727, target = "boss"}
+                    {aura = 45834, target = "boss"}
                 },
                 stackMode = Heim.STACK_MODE.UP,
                 gap = 4,
                 auraMode = Heim.AURAS_WINDOW_MODE.PROGRESS_FLIPPED,
-                scale = 1
+                scale = 1,
+                resize = true
             }, {
                 position = Heim.ANCHOR:New({RIGHT, ZO_ActionBar1, LEFT, -64, 0}),
                 auras = {
