@@ -96,7 +96,7 @@ function Heim.LoadUI()
     config.HeimAtrs = {
         enable = true,
         position = Heim.ANCHOR:New({
-            BOTTOMRIGHT, Heim.config.Crutch.bossBar, BOTTOMLEFT, -32, 69
+            BOTTOMRIGHT, Heim.config.Crutch.bossBar, BOTTOMLEFT, -16 * 4, 69
         }),
         flipped = true,
         scale = 1.2,

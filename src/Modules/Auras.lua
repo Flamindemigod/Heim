@@ -154,6 +154,26 @@ function Auras.defaultConfig()
     };
 end
 
+local function InitBuffsFromNothing(window_idx)
+    local buffCount = GetNumBuffs("player");
+    if (buffCount > 0) then
+        for jt_jter = 1, buffCount do
+            local buffName, timeStarted, timeEnding, buffSlot, stackCount,
+                  iconFilename, buffType, effectType, abilityType,
+                  statusEffectType, abilityId, canClickOff, castByPlayer =
+                GetUnitBuffInfo("player", jt_jter);
+            for ability_id, jt in pairs(Auras.windows[window_idx].trackers) do
+                if (ability_id == abilityId) then
+                    jt.func(nil, EFFECT_RESULT_GAINED, nil, buffName, "player",
+                            timeStarted, timeEnding, stackCount, iconFilename,
+                            buffType, effectType, abilityType, statusEffectType,
+                            nil, nil, abilityId, nil);
+                end
+            end
+        end
+    end
+end
+
 function Auras.Init()
     Auras.windows = {};
     local conf = Heim.config.Auras.enable and Heim.config.Auras or
@@ -170,24 +190,7 @@ function Auras.Init()
             for jt_jter, jt in pairs(it.auras) do
                 Auras.windows[it_iter]:AddTracker(jt.aura, jt.target);
             end
-            local buffCount = GetNumBuffs("player");
-            if (buffCount > 0) then
-                for jt_jter = 1, buffCount do
-                    local buffName, timeStarted, timeEnding, buffSlot,
-                          stackCount, iconFilename, buffType, effectType,
-                          abilityType, statusEffectType, abilityId, canClickOff,
-                          castByPlayer = GetUnitBuffInfo("player", jt_jter);
-                    for ability_id, jt in pairs(Auras.windows[it_iter].trackers) do
-                        if (ability_id == abilityId) then
-                            jt.func(nil, EFFECT_RESULT_GAINED, nil, buffName,
-                                    "player", timeStarted, timeEnding,
-                                    stackCount, iconFilename, buffType,
-                                    effectType, abilityType, statusEffectType,
-                                    nil, nil, abilityId, nil);
-                        end
-                    end
-                end
-            end
+            InitBuffsFromNothing(it_iter);
             HUD_SCENE:AddFragment(Auras.windows[it_iter]);
             HUD_UI_SCENE:AddFragment(Auras.windows[it_iter]);
             SIEGE_BAR_SCENE:AddFragment(Auras.windows[it_iter]);
@@ -201,6 +204,7 @@ function Auras.Init()
             for jt_jter, jt in pairs(it.trackers) do
                 it:RemoveChild(jt.control);
             end
+            InitBuffsFromNothing(it_iter);
         end
     end)
 end
