@@ -1,9 +1,6 @@
 # Heim
 [ ] Global Styling options (use base16 or something similar)[https://github.com/chriskempson/base16]
 [ ] Synergy Customization
-[ ] Fix: CompassFrame opacity currently affects the opacity of the icons but not the background
-[ ] Bug: ZO_WorldMap sometimes suddenly changes the size of the minimap. and changing scenes fixes it somehow
-    - Breaks on window resize.
 [ ] UI Scaling based on window size
 [ ] Interactive Ingame editor for configs
 [ ] Hide Chat When in a interaction menu

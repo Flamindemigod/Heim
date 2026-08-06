@@ -35,6 +35,13 @@ local function patch()
             ZO_WorldMap_OnResizeStop(ZO_WorldMap)
             ZO_WorldMap_UpdateMap = orgZO_WorldMap_UpdateMap
         end
+        local orgWORLD_MAP_MANAGER_ResizeAndReanchorMap =
+            WORLD_MAP_MANAGER.ResizeAndReanchorMap;
+        function WORLD_MAP_MANAGER:ResizeAndReanchorMap()
+            if self:GetMode() ~= MAP_MODE_VOTANS_MINIMAP then
+                orgWORLD_MAP_MANAGER_ResizeAndReanchorMap(self);
+            end
+        end
     end
 end
 
@@ -43,15 +50,6 @@ local function init()
         HeimUtils.RunWhenTrue(function()
             return Heim.config.VotansMinimap.position:IsValid()
         end, function() VOTANS_MINIMAP:RestorePosition(); end)
-        -- XXX:Hack
-        Heim.EM:RegisterForEvent(Heim.name .. VOTANS_MINIMAP.name,
-                                 EVENT_PLAYER_ACTIVATED, function()
-            zo_callLater(function()
-                VOTANS_MINIMAP:RestorePosition();
-                ZO_WorldMapScroll:SetDimensions(
-                    ZO_WorldMapScroll:GetDimensions());
-            end, 1);
-        end);
     end
 end
 
