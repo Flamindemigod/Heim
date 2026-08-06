@@ -11,7 +11,5 @@
 [ ] Some buffs like off-balance have multiple ids for the same buff (Kinda stupid ik). But need a way to track the buffs properly in this case
 [ ] Tracking group buffs properly for uptime.
 [ ] Tracking custom buff cooldowns like pillager and naz
-# Heim Atrs
-[ ] Mount and WW Status Bars need to be reversed in stacked configs depending on flipped
 # Hodor Replacement
 [ ] Should probs be a standalone addon with a optional dep on Heim

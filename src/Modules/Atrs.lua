@@ -263,6 +263,37 @@ function HeimAtrNoGloss:New() return ZO_Object.New(self) end
 function HeimAtrNoGloss:SetMinMax() end
 function HeimAtrNoGloss:SetValue() end
 
+local function smallAtrBarSetDirection(bar, direction)
+    if (direction == "left") then
+        ApplyTemplateToControl(bar:GetNamedChild("BgContainer"),
+                               ZO_GetPlatformTemplate(
+                                   "ZO_PlayerAttributeBgSmallRight"))
+        local statusBar = bar:GetNamedChild("Bar");
+        statusBar:SetBarAlignment(BAR_ALIGNMENT_NORMAL);
+        statusBar:ClearAnchors();
+        statusBar:SetAnchor(LEFT, bar, LEFT, 6, 1);
+        statusBar:SetAnchor(RIGHT, bar, RIGHT, -32, 0);
+        ApplyTemplateToControl(bar:GetNamedChild("Frame"),
+                               ZO_GetPlatformTemplate(
+                                   "ZO_PlayerAttributeFrameSmallRight"))
+    elseif (direction == "right") then
+        ApplyTemplateToControl(bar:GetNamedChild("BgContainer"),
+                               ZO_GetPlatformTemplate(
+                                   "ZO_PlayerAttributeBgSmallLeft"))
+        local statusBar = bar:GetNamedChild("Bar");
+        statusBar:SetBarAlignment(BAR_ALIGNMENT_REVERSE);
+        statusBar:ClearAnchors();
+        statusBar:SetAnchor(LEFT, bar, LEFT, 32, 0);
+        statusBar:SetAnchor(RIGHT, bar, RIGHT, -6, 1);
+
+        ApplyTemplateToControl(bar:GetNamedChild("Frame"),
+                               ZO_GetPlatformTemplate(
+                                   "ZO_PlayerAttributeFrameSmallLeft"))
+    else
+        HeimUtils.UNREACHABLE("%s is not a valid direction", tostring(direction));
+    end
+end
+
 function HeimAtrs.Init()
     ZO_PlayerAttributeHealth:SetHidden(true)
     ZO_PlayerAttributeMagicka:SetHidden(true)
@@ -289,17 +320,20 @@ function HeimAtrs.Init()
         HeimAtrs.stamina.control:ClearAnchors();
         HeimAtrs.stamina.control:SetAnchor(TOPLEFT, HeimAtrs.magicka.control,
                                            BOTTOMLEFT, 0, 12);
-        ZO_PlayerAttributeSiegeHealth:SetAnchor(TOPRIGHT,
-                                                HeimAtrs.health.control,
-                                                conf.flipped and BOTTOMRIGHT or
-                                                    BOTTOMLEFT, 0, 0)
-        ZO_PlayerAttributeWerewolf:SetAnchor(TOPRIGHT, HeimAtrs.stamina.control,
-                                             conf.flipped and BOTTOMRIGHT or
-                                                 BOTTOMLEFT, 0, 0)
-        ZO_PlayerAttributeMountStamina:SetAnchor(TOPRIGHT,
-                                                 HeimAtrs.magicka.control,
-                                                 conf.flipped and BOTTOMRIGHT or
-                                                     BOTTOMLEFT, 0, 0)
+        -- TODO: Siege Health probs needs to be changed to single direction based bar
+        ZO_PlayerAttributeSiegeHealth:SetAnchor(
+            conf.flipped and TOPRIGHT or TOPLEFT, HeimAtrs.health.control,
+            conf.flipped and BOTTOMRIGHT or BOTTOMLEFT, 0, 0)
+        ZO_PlayerAttributeWerewolf:SetAnchor(
+            conf.flipped and TOPRIGHT or TOPLEFT, HeimAtrs.stamina.control,
+            conf.flipped and BOTTOMRIGHT or BOTTOMLEFT, 0, 0)
+        smallAtrBarSetDirection(ZO_PlayerAttributeWerewolf,
+                                conf.flipped and "right" or "left");
+        ZO_PlayerAttributeMountStamina:SetAnchor(
+            conf.flipped and TOPRIGHT or TOPLEFT, HeimAtrs.magicka.control,
+            conf.flipped and BOTTOMRIGHT or BOTTOMLEFT, 0, 0)
+        smallAtrBarSetDirection(ZO_PlayerAttributeMountStamina,
+                                conf.flipped and "right" or "left");
     elseif (string.lower(conf.layout) == "pyramid") then
         HeimAtrs.health =
             HealthBar:New(POWERTYPE_HEALTH, topLevel, conf.flipped);
