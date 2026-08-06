@@ -211,7 +211,9 @@ function Heim.LoadUI()
                     {aura = 109966, target = "player"},
                     {aura = 61747, target = "player"},
                     {aura = 93109, target = "player"},
-                    {aura = 61745, target = "player"}
+                    {aura = 61745, target = "player"},
+                    {aura = 267744, target = "player"},
+                    {aura = 118664, target = "group"}
                 },
                 stackMode = Heim.STACK_MODE.UP,
                 gap = 4,

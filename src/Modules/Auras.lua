@@ -68,23 +68,15 @@ function Window:AddTracker(abilityId, unitTag)
                           endTime, stackCount, iconName, buffType, effectType,
                           abilityType, statusEffectType, unitName, unitId,
                           abilityId, sourceType)
+        if (changeType == EFFECT_RESULT_GAINED and unitTag == "group") then
+            tracker.stackCount = (tracker.stackCount or 0) + (stackCount or 1);
+        else
+            tracker.stackCount = stackCount;
+        end
         if (tracker.max == nil or tracker.max < endTime - beginTime) then
             tracker.max = endTime - beginTime;
         end
         tracker.icon:SetTexture(iconName);
-        if (self.auraMode == AURAS_WINDOW_MODE.ICON) then
-            if (stackCount > 0) then
-                tracker.label:SetText(string.format("(%d)", stackCount));
-            end
-        else
-            if (stackCount > 0) then
-                tracker.label:SetText(string.format("%s (%d)", effectName,
-                                                    stackCount));
-            else
-                tracker.label:SetText(effectName);
-            end
-
-        end
         if (effectType == BUFF_EFFECT_TYPE_BUFF) then
             if (self.auraMode == AURAS_WINDOW_MODE.PROGRESS or self.auraMode ==
                 AURAS_WINDOW_MODE.PROGRESS_FLIPPED) then
@@ -123,10 +115,32 @@ function Window:AddTracker(abilityId, unitTag)
                 end
             end)
         elseif (changeType == EFFECT_RESULT_FADED) then
-            Heim.STACK.RemoveChild(self, tracker.control);
-            Heim.EM:UnregisterForUpdate(self.name .. abilityId);
+            if (unitTag == "group") then
+                tracker.stackCount = (tracker.stackCount or 0) -
+                                         (stackCount or 1);
+                if (tracker.stackCount < 1) then
+                    Heim.STACK.RemoveChild(self, tracker.control);
+                    Heim.EM:UnregisterForUpdate(self.name .. abilityId);
+                end
+            else
+                Heim.STACK.RemoveChild(self, tracker.control);
+                Heim.EM:UnregisterForUpdate(self.name .. abilityId);
+            end
         end
         tracker.endTime = endTime;
+        if (self.auraMode == AURAS_WINDOW_MODE.ICON) then
+            if (tracker.stackCount > 0) then
+                tracker.label:SetText(string.format("(%d)", tracker.stackCount));
+            end
+        else
+            if (tracker.stackCount > 0) then
+                tracker.label:SetText(string.format("%s (%d)", effectName,
+                                                    tracker.stackCount));
+            else
+                tracker.label:SetText(effectName);
+            end
+
+        end
     end
     tracker.control:RegisterForEvent(EVENT_EFFECT_CHANGED, tracker.func);
     tracker.control:AddFilterForEvent(EVENT_EFFECT_CHANGED,
