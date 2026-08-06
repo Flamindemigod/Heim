@@ -2,8 +2,8 @@
 ## Description: Heim is a no frills declaritive UI toolkit
 ## Author: |cFFA500FlaminDemigod|r
 ## APIVersion: 101050
-## AddOnVersion: 110
-## Version:  1.1.0
+## AddOnVersion: 200
+## Version:  2.0.0
 
 Heim.lua
 HeimUtils.lua
