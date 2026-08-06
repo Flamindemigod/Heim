@@ -46,6 +46,16 @@ local function defaultConfChat()
     };
 end
 
+local function defaultConfSynergy()
+    return {
+        enable = false,
+        position = Heim.ANCHOR:New({BOTTOM, ZO_ActionBar1, TOP, 0, -64}),
+        showKey = true,
+        showText = true,
+        scale = 1,
+    };
+end
+
 function Heim.ZOPatches()
     local compass = Heim.config.ZOCompass;
     function COMPASS_FRAME:ApplyStyle()
@@ -324,6 +334,7 @@ local function init()
         local conf =
             Heim.IsEnabled(Heim.config.ZOChat) and Heim.config.ZOChat or
                 defaultConfChat();
+        Heim.config.ZOChat.control = ZO_ChatWindow;
         conf.position:AddToControl(ZO_ChatWindow, true);
         ZO_ChatWindow:SetScale(conf.scale);
         ZO_ChatWindow:SetDimensions(conf.size.w / conf.scale,
@@ -339,6 +350,18 @@ local function init()
                                                   ZO_ChatWindowBg:GetHeight() /
                                                       conf.scale - 12);
     end)
+    HeimUtils.RunWhenTrue(function()
+        return Heim.config.ZOSynergy.position:IsValid() and ZO_SynergyTopLevelContainer ~= nil
+    end, function()
+        local conf =
+            Heim.IsEnabled(Heim.config.ZOSynergy) and Heim.config.ZOSynergy or
+                defaultConfSynergy();
+        Heim.config.ZOSynergy.control = ZO_SynergyTopLevelContainer;
+        conf.position:AddToControl(ZO_SynergyTopLevelContainer, true);
+        ZO_SynergyTopLevelContainer:GetNamedChild("Key"):SetHidden(not conf.showKey)
+        ZO_SynergyTopLevelContainer:GetNamedChild("Action"):SetHidden(not conf.showKey)
+        ZO_SynergyTopLevelContainer:SetScale(conf.scale)
+    end)
 end
 table.insert(Heim.inits, init);
 table.insert(Heim.defaults, function()
@@ -346,4 +369,5 @@ table.insert(Heim.defaults, function()
     Heim.config.ZOHousingHud = defaultConfHousingHud();
     Heim.config.ZOPerformanceMeters = defaultConfPerformanceMeters();
     Heim.config.ZOChat = defaultConfChat();
+    Heim.config.ZOSynergy = defaultConfSynergy();
 end);

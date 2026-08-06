@@ -73,6 +73,13 @@ function Heim.LoadUI()
         scale = 1.5,
         minimize_direction = "right"
     };
+    config.ZOSynergy = {
+        enable = true,
+        position = Heim.ANCHOR:New({BOTTOM, ZO_ActionBar1, TOP, 0, -16*3}),
+        showKey = false,
+        showText = false,
+        scale = 1.28
+    };
     config.FAB = {
         enable = true,
         position = Heim.ANCHOR:New({BOTTOM, GuiRoot, BOTTOM, 0, -16 * 4})
@@ -212,7 +219,6 @@ function Heim.LoadUI()
                     {aura = 61747, target = "player"},
                     {aura = 93109, target = "player"},
                     {aura = 61745, target = "player"},
-                    {aura = 267744, target = "player"},
                     {aura = 118664, target = "group"}
                 },
                 stackMode = Heim.STACK_MODE.UP,

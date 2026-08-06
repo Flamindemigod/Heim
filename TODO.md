@@ -1,6 +1,5 @@
 # Heim
 [ ] Global Styling options (use base16 or something similar)[https://github.com/chriskempson/base16]
-[ ] Synergy Customization
 [ ] UI Scaling based on window size
 [ ] Interactive Ingame editor for configs
 [ ] Hide Chat When in a interaction menu
