@@ -26,9 +26,21 @@ function HeimUtils.FragmentTblToMap(tbl)
     return copy;
 end
 
-function HeimUtils.MergeMaps(...)
-    local dest = {};
-    for _, it in ipairs({...}) do for k, v in pairs(it) do dest[k] = v; end end
+local function __type(obj)
+    if (type(obj) == "table" and obj.__type ~= nil) then return obj.__type; end
+    return type(obj);
+end
+function HeimUtils.MergeMaps(deep, dest, ...)
+    for _, it in ipairs({...}) do
+        for k, v in pairs(it) do
+            if (deep == true and __type(dest[k]) == "table" and __type(v) ==
+                "table") then
+                dest[k] = HeimUtils.MergeMaps(deep, dest[k], v);
+            else
+                dest[k] = v;
+            end
+        end
+    end
     return dest;
 end
 
@@ -117,4 +129,17 @@ function HeimUtils.SecondsToMinSecString(inputSecs)
     local min = math.floor(inputSecs / 60)
     local secs = inputSecs % 60
     return string.format("%01d:%02d", min, secs)
+end
+
+local RunWhenTrueId = 1;
+function HeimUtils.RunWhenTrue(conditional, f, timeBeween)
+    local id = RunWhenTrueId;
+    RunWhenTrueId = RunWhenTrueId + 1;
+    local name = "HeimUtils.RunWhenTrue" .. id;
+    Heim.EM:RegisterForUpdate(name, timeBetween or 50, function()
+        if (ZO_Eval(conditional)) then
+            f();
+            Heim.EM:UnregisterForUpdate(name)
+        end
+    end)
 end

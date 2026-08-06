@@ -2,3 +2,6 @@
 .lua-format export-ignore
 build.lua export-ignore
 makefile export-ignore
+.envrc export-ignore
+flake.lock export-ignore
+flake.nix export-ignore

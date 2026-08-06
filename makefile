@@ -33,7 +33,8 @@ format:
 
 zip:
 	@echo "Exporting Addon"
-	git archive HEAD --prefix=$(NAME)/ --format=zip -o $(NAME).zip
+	git archive --format=zip -o $(NAME).zip HEAD:src/
+	7z rn $(NAME).zip src/ $(NAME)/ | tail -n 2
 	@echo "Done."
 
 link: link-clean link-set

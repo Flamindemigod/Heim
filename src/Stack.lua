@@ -36,6 +36,7 @@ function Stack:Initialize(name, mode, gap, type)
                                        type or CT_TOPLEVELCONTROL);
     ApplyTemplateToControl(root, "Heim_Stack");
     ZO_HUDFadeSceneFragment.Initialize(self, root);
+    self.name = name;
     self.mode = mode;
     self.gap = gap or 16;
 end

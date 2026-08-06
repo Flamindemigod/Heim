@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<GuiXml>
+  <Controls>
+    <Control name="AuraProgressBar" virtual="true">
+      <Dimensions x="256" y="40" />
+      <Controls>
+        <Texture name="$(parent)Icon">
+          <Dimensions x="40" y="40" />
+          <Anchor point="LEFT" />
+        </Texture>
+        <Control name="$(parent)Container"
+        inherits="ZO_PlayerAttributeContainerSmall">
+          <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Icon"
+          relativePoint="BOTTOMRIGHT" offsetX="4" />
+          <Anchor point="RIGHT" relativeTo="$(parent)"
+          relativePoint="RIGHT" constrains="1" />
+          <Controls>
+            <Texture name="$(grandparent)BgContainer"
+            inherits="ZO_PlayerAttributeBgSmallRight">
+              <AnchorFill />
+              <TextureCoords left="0.06" right="0.94"
+              top="0.421875" bottom="0.578125" />
+            </Texture>
+            <StatusBar name="$(grandparent)Bar"
+            inherits="ZO_PlayerAttributeStatusBarSmall">
+              <AnchorFill />
+              <OnInitialized>self.gloss =
+              HeimAtrNoGloss:New()</OnInitialized>
+            </StatusBar>
+            <Texture name="$(grandparent)Frame"
+            inherits="ZO_PlayerAttributeFrameSmallRight">
+              <AnchorFill />
+              <TextureCoords left="0.06" right="0.94"
+              top="0.421875" bottom="0.555" />
+            </Texture>
+          </Controls>
+        </Control>
+        <Label name="$(parent)Text" horizontalAlignment="LEFT"
+        font="ZoFontGamepad25">
+          <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Bar"
+          relativePoint="TOPLEFT" offsetY="-1" />
+        </Label>
+      </Controls>
+    </Control>
+    <Control name="AuraProgressBarReversed" virtual="true">
+      <Dimensions x="256" y="40" />
+      <Controls>
+        <Texture name="$(parent)Icon">
+          <Dimensions x="40" y="40" />
+          <Anchor point="RIGHT" />
+        </Texture>
+        <Control name="$(parent)Container"
+        inherits="ZO_PlayerAttributeContainerSmall">
+          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)Icon"
+          relativePoint="BOTTOMLEFT" offsetX="-4" />
+          <Anchor point="LEFT" relativeTo="$(parent)"
+          relativePoint="LEFT" constrains="1" />
+          <Controls>
+            <Texture name="$(grandparent)BgContainer"
+            inherits="ZO_PlayerAttributeBgSmallRight">
+              <AnchorFill />
+              <TextureCoords right="0.06" left="0.94"
+              top="0.421875" bottom="0.578125" />
+            </Texture>
+            <StatusBar name="$(grandparent)Bar"
+            inherits="ZO_PlayerAttributeStatusBarSmall"
+            barAlignment="REVERSE">
+              <AnchorFill />
+              <OnInitialized>self.gloss =
+              HeimAtrNoGloss:New()</OnInitialized>
+            </StatusBar>
+            <Texture name="$(grandparent)Frame"
+            inherits="ZO_PlayerAttributeFrameSmallRight">
+              <AnchorFill />
+              <TextureCoords right="0.06" left="0.94"
+              top="0.421875" bottom="0.555" />
+            </Texture>
+          </Controls>
+        </Control>
+        <Label name="$(parent)Text" horizontalAlignment="RIGHT"
+        font="ZoFontGamepad25">
+          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)Bar"
+          relativePoint="TOPRIGHT" offsetY="-1" />
+        </Label>
+      </Controls>
+    </Control>
+    <Control name="AuraIcon" virtual="true"
+    resizeToFitDescendents="true">
+      <Controls>
+        <Texture name="$(parent)Icon">
+          <Dimensions x="40" y="40" />
+          <Anchor point="CENTER" />
+          <Controls>
+            <Label name="$(grandparent)Text"
+            horizontalAlignment="RIGHT" font="ZoFontGamepad18">
+              <Anchor point="CENTER" offsetY="1" />
+            </Label>
+          </Controls>
+        </Texture>
+      </Controls>
+    </Control>
+  </Controls>
+</GuiXml>

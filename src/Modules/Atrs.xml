@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<GuiXml>
+  <Controls>
+    <StatusBar name="HeimAtrShieldBar" level="550"
+    inherits="ZO_PlayerAttributeStatusBar" virtual="true">
+      <OnInitialized>self.gloss =
+      HeimAtrNoGloss:New()</OnInitialized>
+    </StatusBar>
+    <StatusBar name="HeimAtrTraumaBar" level="1000"
+    inherits="ZO_PlayerAttributeStatusBar" virtual="true">
+      <OnInitialized>self.gloss =
+      HeimAtrNoGloss:New()</OnInitialized>
+    </StatusBar>
+    <Control name="HeimAtrBarContainer"
+    inherits="ZO_PlayerAttributeContainer" virtual="true">
+      <Controls>
+        <Control name="$(parent)BgContainer"
+        inherits="ZO_PlayerAttributeBgContainer">
+          <Anchor point="LEFT" />
+          <Anchor point="RIGHT" />
+          <Controls>
+            <Texture name="$(parent)BgLeft"
+            inherits="ZO_PlayerAttributeBgLeft" />
+            <Texture name="$(parent)BgRight"
+            inherits="ZO_PlayerAttributeBgRightArrow" />
+            <Texture name="$(parent)BgCenter"
+            inherits="ZO_PlayerAttributeBgCenter" />
+          </Controls>
+        </Control>
+        <StatusBar name="$(parent)Bar"
+        inherits="ZO_PlayerAttributeStatusBar">
+          <OnInitialized>self.gloss =
+          HeimAtrNoGloss:New()</OnInitialized>
+        </StatusBar>
+        <Label name="$(parent)Text" horizontalAlignment="CENTER"
+        font="ZoFontGamepad18">
+          <Anchor point="BOTTOM" relativeTo="$(parent)"
+          relativePoint="BOTTOM" offsetY="1" />
+        </Label>
+        <Label name="$(parent)Percent" font="ZoFontGamepad18"
+        horizontalAlignment="CENTER"></Label>
+        <Texture name="$(parent)FrameLeft"
+        inherits="ZO_PlayerAttributeFrameLeft" />
+        <Texture name="$(parent)FrameRight"
+        inherits="ZO_PlayerAttributeFrameRightArrow" />
+        <Texture name="$(parent)FrameCenter"
+        inherits="ZO_PlayerAttributeFrameCenter" />
+      </Controls>
+    </Control>
+    <Control name="HeimAtrBar_Template" virtual="true">
+      <Controls>
+        <Label name="$(parent)Percent" font="ZoFontGamepad18">
+          <Anchor point="BOTTOMLEFT" relativeTo="$(parent)"
+          relativePoint="BOTTOMLEFT" offsetX="10" offsetY="1" />
+        </Label>
+      </Controls>
+    </Control>
+    <Control name="HeimAtrBar_Rev_Template" virtual="true">
+      <Controls>
+        <StatusBar name="$(parent)Bar" barAlignment="REVERSE">
+        </StatusBar>
+        <Label name="$(parent)Percent">
+          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)"
+          relativePoint="BOTTOMRIGHT" offsetX="-10" offsetY="1" />
+        </Label>
+      </Controls>
+    </Control>
+    <TopLevelControl name="HeimAtr" resizeToFitDescendents="true">
+    </TopLevelControl>
+  </Controls>
+</GuiXml>

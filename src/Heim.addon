@@ -9,10 +9,20 @@ Heim.lua
 HeimUtils.lua
 Stack.lua
 Stack.xml
+Anchor.lua
 
-Fixes/Default.lua
-Fixes/ZO.lua
-Fixes/ALTFG.lua
-Fixes/EPT.lua
+Modules/Atrs.lua
+Modules/Atrs.xml
+
+Modules/Auras.lua
+Modules/Auras.xml
+
+Patches/Default.lua
+Patches/ZO.lua
+Patches/ALTGF.lua
+Patches/FAB.lua
+Patches/CrutchAlerts.lua
+Patches/EPT.lua
+Patches/Hodor.lua
 Fixes/HT.lua
-Fixes/VOTANS_MINIMAP.lua
+Patches/VOTANS_MINIMAP.lua
