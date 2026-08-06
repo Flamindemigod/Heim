@@ -52,7 +52,7 @@ local function defaultConfSynergy()
         position = Heim.ANCHOR:New({BOTTOM, ZO_ActionBar1, TOP, 0, -64}),
         showKey = true,
         showText = true,
-        scale = 1,
+        scale = 1
     };
 end
 
@@ -351,15 +351,17 @@ local function init()
                                                       conf.scale - 12);
     end)
     HeimUtils.RunWhenTrue(function()
-        return Heim.config.ZOSynergy.position:IsValid() and ZO_SynergyTopLevelContainer ~= nil
+        return Heim.config.ZOSynergy.position:IsValid() and
+                   ZO_SynergyTopLevelContainer ~= nil
     end, function()
-        local conf =
-            Heim.IsEnabled(Heim.config.ZOSynergy) and Heim.config.ZOSynergy or
-                defaultConfSynergy();
+        local conf = Heim.IsEnabled(Heim.config.ZOSynergy) and
+                         Heim.config.ZOSynergy or defaultConfSynergy();
         Heim.config.ZOSynergy.control = ZO_SynergyTopLevelContainer;
         conf.position:AddToControl(ZO_SynergyTopLevelContainer, true);
-        ZO_SynergyTopLevelContainer:GetNamedChild("Key"):SetHidden(not conf.showKey)
-        ZO_SynergyTopLevelContainer:GetNamedChild("Action"):SetHidden(not conf.showKey)
+        ZO_SynergyTopLevelContainer:GetNamedChild("Key"):SetHidden(
+            not conf.showKey)
+        ZO_SynergyTopLevelContainer:GetNamedChild("Action"):SetHidden(
+            not conf.showKey)
         ZO_SynergyTopLevelContainer:SetScale(conf.scale)
     end)
 end

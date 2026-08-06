@@ -75,7 +75,7 @@ function Heim.LoadUI()
     };
     config.ZOSynergy = {
         enable = true,
-        position = Heim.ANCHOR:New({BOTTOM, ZO_ActionBar1, TOP, 0, -16*3}),
+        position = Heim.ANCHOR:New({BOTTOM, ZO_ActionBar1, TOP, 0, -16 * 3}),
         showKey = false,
         showText = false,
         scale = 1.28
