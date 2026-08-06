@@ -349,6 +349,10 @@ local function init()
         KEYBOARD_CHAT_SYSTEM.minBar:SetDimensions(64 / conf.scale,
                                                   ZO_ChatWindowBg:GetHeight() /
                                                       conf.scale - 12);
+        Heim.SM:GetScene("gamepadInteract"):RegisterCallback("StateChange",
+                                                             function()
+            KEYBOARD_CHAT_SYSTEM:Minimize()
+        end);
     end)
     HeimUtils.RunWhenTrue(function()
         return Heim.config.ZOSynergy.position:IsValid() and

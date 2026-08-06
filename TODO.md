@@ -2,7 +2,6 @@
 [ ] Global Styling options (use base16 or something similar)[https://github.com/chriskempson/base16]
 [ ] UI Scaling based on window size
 [ ] Interactive Ingame editor for configs
-[ ] Hide Chat When in a interaction menu
 [ ] Ability to disable basegame boss bar
 [ ] Quest Tracker Integration
 # Auras
