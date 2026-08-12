@@ -45,8 +45,8 @@ function Anchor:Initialize(a1, a2)
         local posOnSelf, target, posOnTarget, offsetX, offsetY, constrain =
             unpack(a2);
         self.posOnSelf1 = posOnSelf or TOPLEFT;
-        self.target1 = validateTarget(target);
-        self.posOnTarget1 = posOnTarget or self.PosOnSelf;
+        self.target1 = target ~= nil and validateTarget(target) or nil;
+        self.posOnTarget1 = posOnTarget or self.PosOnSelf1;
         self.offsetX1 = offsetX or 0;
         self.offsetY1 = offsetY or 0;
         self.constrain1 = constrain or ANCHOR_CONSTRAINS_XY;
@@ -83,7 +83,7 @@ function Anchor:AsZOAnchor()
 end
 
 function Anchor:AsZOAnchor1()
-    if (self:IsValid() ~= true) then return nil; end
+    if (self:IsValid() ~= true or self.target1 == nil) then return nil; end
     return ZO_Anchor:New(ZO_Eval(self.posOnSelf1), self.target1.control,
                          ZO_Eval(self.posOnTarget1), ZO_Eval(self.offsetX1),
                          ZO_Eval(self.offsetY1), ZO_Eval(self.constrain1));

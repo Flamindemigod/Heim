@@ -94,6 +94,12 @@ function Heim.LoadUI()
             TOPLEFT, Heim.config.VotansMinimap, BOTTOMLEFT, -16, 16
         })
     };
+    config.ZOEndDunHud = {
+        enable = true,
+        position = Heim.ANCHOR:New({
+            TOPRIGHT, Heim.config.VotansMinimap, BOTTOMRIGHT, 0, 0
+        })
+    };
     config.AltGF = {
         enable = true,
         position = Heim.ANCHOR:New({TOPLEFT, GuiRoot, TOPLEFT, 16, 16}),

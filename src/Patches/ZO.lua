@@ -56,6 +56,13 @@ local function defaultConfSynergy()
     };
 end
 
+local function defaultConfEndDunHud()
+    return {
+        enable = false,
+        position = Heim.ANCHOR:New({TOPRIGHT, GuiRoot, TOPRIGHT, -16, 64})
+    };
+end
+
 function Heim.ZOPatches()
     local compass = Heim.config.ZOCompass;
     function COMPASS_FRAME:ApplyStyle()
@@ -87,7 +94,6 @@ function Heim.ZOPatches()
                       Heim.config.ZOCompass or defaultConfCompass();
         self.control:SetWidth(ZO_Eval(compass.size.w));
     end
-    local housingHud = Heim.config.ZOHousingHud;
     function ZO_HouseInformationTracker:InitializeStyles()
         housingHud = Heim.IsEnabled(Heim.config.ZOHousingHud) and
                          Heim.config.ZOHousingHud or defaultConfHousingHud();
@@ -117,8 +123,7 @@ function Heim.ZOPatches()
             TEXT_HORIZONTAL_ALIGNMENT = TEXT_ALIGN_RIGHT,
 
             TOP_LEVEL_PRIMARY_ANCHOR = housingHud.position:AsZOAnchor(),
-            TOP_LEVEL_SECONDARY_ANCHOR = Heim.IsEnabled(Heim.config.ZOHousingHud) and
-                nil or
+            TOP_LEVEL_SECONDARY_ANCHOR = housingHud.position:AsZOAnchor1() or
                 ZO_Anchor:New(RIGHT, GuiRoot, RIGHT, -15, 0, ANCHOR_CONSTRAINS_X)
         };
         self.styles = {keyboard = style, gamepad = style}
@@ -327,6 +332,7 @@ local function init()
                          defaultConfPerformanceMeters();
         PERFORMANCE_METERS.control:SetMovable(false);
         conf.position:AddToControl(PERFORMANCE_METERS.control, true);
+        Heim.config.ZOPerformanceMeters.control = PERFORMANCE_METERS.control;
     end)
     HeimUtils.RunWhenTrue(function()
         return Heim.config.ZOChat.position:IsValid()
@@ -368,6 +374,22 @@ local function init()
             not conf.showKey)
         ZO_SynergyTopLevelContainer:SetScale(conf.scale)
     end)
+    HeimUtils.RunWhenTrue(function()
+        return Heim.config.ZOEndDunHud.position:IsValid()
+    end, function()
+        local conf = Heim.IsEnabled(Heim.config.ZOEndDunHud) and
+                         Heim.config.ZOEndDunHud or defaultConfEndDunHud();
+        ENDLESS_DUNGEON_HUD_TRACKER.styles.keyboard.TOP_LEVEL_PRIMARY_ANCHOR =
+            conf.position:AsZOAnchor();
+        ENDLESS_DUNGEON_HUD_TRACKER.styles.keyboard.TOP_LEVEL_SECONDARY_ANCHOR =
+            conf.position:AsZOAnchor1()
+        ENDLESS_DUNGEON_HUD_TRACKER.styles.gamepad.TOP_LEVEL_PRIMARY_ANCHOR =
+            conf.position:AsZOAnchor();
+        ENDLESS_DUNGEON_HUD_TRACKER.styles.gamepad.TOP_LEVEL_SECONDARY_ANCHOR =
+            conf.position:AsZOAnchor1()
+        Heim.config.ZOEndDunHud.control = ENDLESS_DUNGEON_HUD_TRACKER.control;
+        ZO_HUDTracker_Base.InitializeStyles(ENDLESS_DUNGEON_HUD_TRACKER)
+    end)
 end
 table.insert(Heim.inits, init);
 table.insert(Heim.defaults, function()
@@ -376,4 +398,5 @@ table.insert(Heim.defaults, function()
     Heim.config.ZOPerformanceMeters = defaultConfPerformanceMeters();
     Heim.config.ZOChat = defaultConfChat();
     Heim.config.ZOSynergy = defaultConfSynergy();
+    Heim.config.ZOEndDunHud = defaultConfEndDunHud();
 end);
