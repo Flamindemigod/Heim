@@ -17,6 +17,9 @@ Modules/Atrs.xml
 Modules/Auras.lua
 Modules/Auras.xml
 
+Modules/Metronome.lua
+Modules/Metronome.xml
+
 Patches/Default.lua
 Patches/ZO.lua
 Patches/ALTGF.lua

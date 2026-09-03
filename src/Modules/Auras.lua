@@ -5,10 +5,8 @@ Heim.inits = Heim.inits or {};
 Heim.defaults = Heim.defaults or {};
 Heim.config = Heim.config or {};
 
-Auras = Auras or {};
+local Auras = {};
 Auras.name = "Auras";
-Auras.EM = EVENT_MANAGER;
-Auras.SM = SCENE_MANAGER;
 
 local WINDOW_MODE_IOTA = HeimUtils.Iota();
 
