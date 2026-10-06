@@ -7,21 +7,38 @@ Heim.config = Heim.config or {};
 
 local Metronome = {};
 Metronome.name = "Metronome";
+Metronome.__locked = false;
 
 function Metronome.defaultConfig()
     return {
         enable = false,
-        position = Heim.ANCHOR:New({BOTTOM, ZO_ActionBar1, TOP, 0, -32})
+        startSound = SOUNDS.DIALOG_DECLINE,
+        endSound = SOUNDS.JUSTICE_PICKPOCKET_FAILED
     };
 end
 
 function Metronome.Init()
-    local root = Heim.WM:CreateControl(Heim.name .. Metronome.name, GuiRoot,
-                                       CT_TOPLEVELCONTROL);
-    root:SetAnchor(TOPLEFT, GuiRoot, CENTER, -64, -8)
-    root:SetAnchor(BOTTOMRIGHT, GuiRoot, CENTER, 64, 8)
-    Heim.WM:CreateControlFromVirtual(Metronome.name, root, "MetronomeRhythm");
-
+    local MIN_INDEX = 3;
+    Heim.EM:RegisterForUpdate(Heim.name .. Metronome.name, 20, function()
+        local conf = Heim.config.Metronome.enable and
+                         Heim.config.Metronome or Metronome.defaultConfig();
+        if (conf.enable ~= true) then return nil; end
+        local cd, dur, _, _ = GetSlotCooldownInfo(MIN_INDEX);
+        local cd2, dur2, _, _ = GetSlotCooldownInfo(MIN_INDEX + 1);
+        if (cd2 > cd) or (dur2 > dur) then
+            cd = cd2;
+            dur = dur2;
+        end
+        dur = math.max(1, dur);
+        if (cd ~= 0 and Metronome.__locked == false) then
+            Metronome.__locked = true;
+            PlaySound(conf.startSound);
+            zo_callLater(function()
+                PlaySound(conf.endSound);
+                Metronome.__locked = false;
+            end, dur);
+        end
+    end)
 end
 
 table.insert(Heim.inits, Metronome.Init);

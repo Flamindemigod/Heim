@@ -225,7 +225,8 @@ function Heim.LoadUI()
                     {aura = 61747, target = "player"},
                     {aura = 93109, target = "player"},
                     {aura = 61745, target = "player"},
-                    {aura = 118664, target = "group"}
+                    {aura = 118664, target = "group"},
+                    {aura = 194105, target = "player"} -- Ansuul's Torment
                 },
                 stackMode = Heim.STACK_MODE.UP,
                 gap = 4,
@@ -233,6 +234,9 @@ function Heim.LoadUI()
                 scale = 1
             }
         }
+    };
+    config.Metronome = {
+        enable = true,
     };
     return config;
 end
